@@ -1,0 +1,85 @@
+<div class="application-form-container">
+  <div class="form-header">
+    <h3>Create New Application Request</h3>
+    <div *ngIf="showCreateForm" class="application-form-container">
+      <button class="close-btn" (click)="showCreateForm = false">
+      <i class="material-icons">close</i>
+    </button>
+    </div>
+  </div>
+
+  <form (ngSubmit)="createRequest()" #requestForm="ngForm" class="form-body">
+    <div class="form-group">
+      <label>Application Title *</label>
+      <input type="text" [(ngModel)]="newRequest.title" name="title" required />
+    </div>
+
+    <div class="form-group">
+      <label>Description *</label>
+      <textarea rows="3" [(ngModel)]="newRequest.description" name="description" required></textarea>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Application Owner</label>
+        <input type="text" [(ngModel)]="newRequest.owner" name="owner" placeholder="Enter owner name" />
+      </div>
+      <div class="form-group">
+        <label>Category *</label>
+        <select [(ngModel)]="newRequest.category" name="category" required>
+          <option value="">Select Category</option>
+          <option *ngFor="let category of categories" [value]="category.name">{{ category.name }}</option>
+        </select>
+      </div>
+    </div>
+
+   <div class="form-row">
+  <div class="form-group">
+    <label>Requester Department *</label>
+    <input type="text" [(ngModel)]="newRequest.department" name="department" readonly />
+  </div>
+  <div class="form-group">
+    <label>Requester Location *</label>
+    <input type="text" [(ngModel)]="newRequest.location" name="location" readonly />
+  </div>
+</div>
+    <div class="form-group">
+      <label>Explanation</label>
+      <textarea rows="2" [(ngModel)]="newRequest.explanation" name="explanation"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Justification</label>
+      <textarea rows="2" [(ngModel)]="newRequest.justification" name="justification"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Business Impact</label>
+      <textarea rows="2" [(ngModel)]="newRequest.businessImpact" name="businessImpact"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Attachments</label>
+      <input type="file" (change)="onFileSelected($event)" multiple />
+    </div>
+
+    <div class="form-footer">
+    <button type="button" class="btn cancel" (click)="cancel()">Cancel</button>
+    <!-- <button type="submit" class="btn submit" (click)="onSubmit()" [disabled]="isSubmitting"> -->
+          <button type="submit" 
+            (click)="onSubmit()" 
+            [disabled]="isSubmitting"
+            class="btn btn-primary px-4 py-2">
+      {{ isSubmitting ? 'Submitting...' : 'Submit' }}
+</button>
+  </div>
+  </form>
+</div>
+
+
+
+
+
+
+     
+          

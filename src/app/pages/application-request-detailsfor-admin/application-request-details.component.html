@@ -1,0 +1,122 @@
+<div class="details-page">
+  <div class="header">
+    <h2>{{ selectedApplication?.applicationName }}</h2>
+    <button class="back-btn" routerLink="/home/dashboard">← Back to Dashboard</button>
+  </div>
+
+  <div class="details-card">
+  <div class="detail-item"><strong>Application Name:</strong> {{ selectedApplication?.applicationName }}</div>
+  <div class="detail-item"><strong>Application Type:</strong> {{ selectedApplication?.applicationType }}</div>
+  <div class="detail-item"><strong>Justification:</strong> {{ selectedApplication?.justification }}</div>
+  <div class="detail-item"><strong>Explanation:</strong> {{ selectedApplication?.explanation }}</div>
+  <div class="detail-item"><strong>Department:</strong> {{ selectedApplication?.functionName || selectedApplication?.department }}</div>
+  <div class="detail-item"><strong>Location:</strong> {{ selectedApplication?.locationName }}</div>
+<div class="detail-item status-row">
+  <strong>Status:</strong> {{ selectedApplication?.status }}
+
+  <!-- Show button only if not already reviewed -->
+  <button
+    *ngIf="selectedApplication?.status == 'Pending Application Team Review'"
+    class="review-icon-btn"
+    (click)="markAsReviewed()"
+    title="Mark as reviewed"
+  >
+    <i class="material-icons">task_alt</i>
+  </button>
+</div>
+
+  <div class="detail-item"><strong>Requester:</strong> {{ selectedApplication?.requester }}</div>
+  <div class="detail-item"><strong>Request Date:</strong> {{ selectedApplication?.requestDate | date:'short' }}</div>
+  <div class="detail-item"><strong>Created Date:</strong> {{ selectedApplication?.createdDate | date:'short' }}</div>
+</div>
+
+<!-- Attached Documents Section -->
+<div class="documents-section" *ngIf="selectedApplication?.documents">
+  <h3 class="section-title" (click)="showDocuments = !showDocuments">
+    <i class="material-icons">folder</i>
+    Attached Documents
+    <span class="toggle-text">{{ showDocuments ? 'Hide' : 'View' }}</span>
+  </h3>
+
+  <!-- Upload Button -->
+  <div *ngIf="showDocuments" class="upload-container">
+  <label for="fileUpload" class="upload-label">
+    <i class="material-icons">cloud_upload</i> Upload New Documents:
+  </label>
+
+  <input
+    type="file"
+    multiple
+    (change)="onFileSelected($event)"
+    class="file-input"
+    id="fileUpload"
+  />
+
+  <button 
+    class="upload-button" 
+    (click)="uploadFiles()" 
+    [disabled]="!selectedFiles.length">
+    Upload Files
+  </button>
+</div>
+
+
+  <ul class="documents-list" *ngIf="showDocuments">
+    <li *ngFor="let doc of selectedApplication.documents" class="document-item">
+      <a [href]="getDocumentUrl(doc)" target="_blank" class="document-link">
+        <i class="material-icons">description</i>
+        {{ doc.fileName }}
+      </a>
+      <div class="doc-meta">
+        <small><strong>Uploaded by:</strong> {{ doc.createdBy }}</small><br />
+        <small><strong>On:</strong> {{ doc.createdDate | date: 'medium' }}</small>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Handle empty -->
+<div *ngIf="selectedApplication?.documents?.length === 0" class="no-documents">
+  <i class="material-icons">info</i> No documents attached.
+</div>
+
+
+
+
+ <!--  CHAT SECTION  -->
+<div class="chat-section">
+  <h3>Comments</h3>
+
+<div class="chat-box">
+  <ng-container *ngFor="let c of comments">
+    <div
+      class="chat-bubble"
+      [ngClass]="{
+        'own-message': c.createdBy?.toLowerCase() === email?.toLowerCase(),
+        'other-message': c.createdBy?.toLowerCase() !== email?.toLowerCase()
+      }"
+    >
+      <div class="bubble-header">
+        <strong>{{ getFirstName(c.createdBy) }}</strong>
+        <small>{{ c.createdDate | date: 'short' }}</small>
+      </div>
+      <div class="bubble-content">{{ c.comment }}</div>
+    </div>
+  </ng-container>
+</div>
+
+
+  <!-- input -->
+  <div class="comment-input">
+    <textarea
+      [(ngModel)]="newComment"
+      placeholder="Write a comment..."
+      rows="2"
+    ></textarea>
+    <button (click)="submitComment()" [disabled]="!newComment.trim()">
+      Send
+    </button>
+  </div>
+</div>
+
+</div>

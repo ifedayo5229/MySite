@@ -1,0 +1,185 @@
+:host {
+  display: block;
+  background-color: #263238; /* Fallback dark background */
+  min-height: 100vh;
+  overflow-x: hidden;
+  color: #eceff1;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.login-wrapper {
+  display: flex;
+  height: 100vh;
+  align-items: stretch; /* Make columns take full height */
+  justify-content: flex-start; /* Align items to the start (left) */
+}
+
+
+
+.login-left .logo-container {
+  margin-bottom: 5rem;
+}
+
+.login-left .logo {
+  width: 200px;
+  
+  /* You might need to adjust the logo color if it's not visible on the light background */
+}
+.logo{
+    margin-top: 5rem;
+    width: 200%;
+
+}
+
+.login-left .angular-template-info {
+  text-align: center;
+  margin-top: 3rem; // 👈 Adjust the value as needed (e.g., 1rem, 3rem)
+}
+
+
+.login-left .angular-template-info .title {
+  font-size: 5rem; /* Adjust title size */
+  font-weight: 500; /* Adjust font weight */
+  margin-bottom: 0.5rem;
+  color: #080e0a; /* Green color for the title like in the example */
+}
+
+.login-left .angular-template-info .subtitle {
+  font-size: 1.1rem; /* Adjust subtitle size */
+  color: #053a0f; /* Slightly lighter dark color for subtitle */
+}
+.login-left {
+  background-color: #e0e0e0; /* White background */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Align content to the top */
+  padding: 2rem;
+  width: 80%; /* Adjust width as needed */
+  background-image: url('../../../assets/images/auth/register.jpg'); /* Replace with your image path */
+  background-size: cover;
+  background-position: center;
+}
+
+.login-left .logo {
+  width: 100px;
+}
+
+.login-right {
+  background-color: #e2e7ea; /* Dark background */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Center content vertically in the right */
+  padding: 2rem;
+  width: 20%; /* Adjust width as needed */
+  text-align: center;
+}
+
+.login-right .logo-container {
+  margin-bottom: 1.5rem;
+}
+
+.login-right .title {
+  font-size: 1.8rem;
+  font-weight: 300;
+  color: #fff;
+  margin-bottom: 1.5rem;
+}
+
+.login-right .login-form {
+  width: 80%;
+  max-width: 300px;
+}
+
+.login-right .input-box {
+  margin-bottom: 1rem;
+}
+
+.login-right .login-button {
+  width: 100%;
+  background-color: #009639 !important; /* Green button */
+  color: white !important;
+  font-weight: 500;
+  padding: 0.8rem 0;
+}
+
+.login-right .action-button {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.login-right .back-button {
+  background-color: #607d8b;
+  color: white !important;
+  padding: 0.8rem 0;
+}
+
+.login-right .signup-link {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #bdbdbd;
+  text-align: center;
+}
+
+.login-right .signup-link a {
+  color: #03a9f4;
+  text-decoration: none;
+}
+
+.login-right .signup-link a:hover {
+  text-decoration: underline;
+}
+
+
+
+
+// .title {
+//     font-size: 21px;
+// }
+
+form {
+    width: 100%;
+    padding-top: 32px;
+
+    mat-form-field {
+        width: 100%;
+    }
+
+    button {
+        width: 100%;
+        margin: 16px auto;
+        display: block;
+    }
+}
+
+.redirection {
+    flex-direction: column;
+    box-sizing: border-box;
+    display: flex;
+    max-width: 100%;
+    place-content: center;
+    align-items: center;
+
+    margin: 32px auto 24px;
+    width: 250px;
+}
+
+.loading {
+    margin: 16px auto;
+}
+
+
+@media screen and (max-width: 599px) {
+    form {
+        mat-form-field {
+            width: 80%;
+        }
+
+        button {
+            width: 80%;
+        }
+    }
+}

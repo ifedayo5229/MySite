@@ -1,0 +1,140 @@
+/* Sidebar Styles */
+.sidebar {
+  position: fixed;
+  top: 3.93rem;
+  left: 0;
+  width: 20%;
+  height: 100%;
+  padding-top: 0.5rem;
+  background-color: #fff;
+  color: #01925A;
+  font-weight: 400;
+  transition: left 0.3s ease;
+  overflow-y: auto;
+  box-shadow: 7px 0 4px -2px rgba(1, 146, 90, 0.3);
+  z-index: 1000;
+
+  &.active {
+    left: 0;
+  }
+}
+
+/* Menu Styling */
+.menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    display: block;
+    padding: 0.6rem 1.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.3s, color 0.3s;
+
+    a {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img.menu-icon {
+      width: 1.4rem;
+      height: 1.4rem;
+      margin-right: 0.75rem;
+    }
+
+    &:hover {
+      background-color: rgba(1, 146, 90, 0.15);
+    }
+
+    &.active {
+      background-color: rgba(1, 146, 90, 0.6);
+      color: #71717A;
+    }
+
+    /* Submenu */
+    ul.submenu {
+      display: none;
+      list-style: none;
+      margin-top: 0.25rem;
+      padding-left: 2rem;
+
+      li {
+        padding: 0.4rem 1rem;
+        font-size: 0.875rem;
+        border-bottom: 1px solid #eee;
+
+        a {
+          display: flex;
+          align-items: center;
+        }
+
+        img.menu-icon {
+          width: 1.1rem;
+          height: 1.1rem;
+          margin-right: 0.5rem;
+        }
+
+        &:hover {
+          background-color: rgba(1, 146, 90, 0.12);
+        }
+
+        &.active {
+          background-color: rgba(1, 146, 90, 0.25);
+          color: #71717A;
+        }
+      }
+    }
+
+    &:hover ul.submenu,
+    &.active ul.submenu {
+      display: block;
+    }
+
+    .submenu-indicator {
+      margin-left: auto;
+      font-size: 1.2rem;
+      color: #01925A;
+      transition: color 0.3s;
+
+      &:hover {
+        color: rgba(1, 146, 90, 0.6);
+      }
+    }
+  }
+}
+
+/* Utility Reset */
+ul, li {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+/* Responsive Design */
+@media (max-width: 48rem) {
+  .sidebar {
+    width: 65%;
+    height: 100vh;
+    top: 6.75rem;
+    position: absolute;
+    padding: 1.5rem;
+  }
+
+  .menu {
+    flex-direction: column;
+
+    li {
+      padding: 0.75rem 1rem;
+
+      img.menu-icon {
+        width: 1.875rem;
+        height: 1.875rem;
+      }
+    }
+  }
+}

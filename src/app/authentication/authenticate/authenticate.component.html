@@ -1,0 +1,44 @@
+<div class="login-wrapper">
+  <div class="login-left">
+    <div class="logo-container">
+      <img class="logo" src="../../../assets/images/auth/lafarge_logo.png" alt="Lafarge Logo" />
+    </div>
+    <div class="angular-template-info">
+      <h1 class="title">Streamlining Your Application Management Processes</h1>
+      <p class="subtitle">Improve collaboration, automate tasks, and ensure smooth application operations.</p>
+    </div>
+  </div>
+
+  <div class="login-right">
+   
+    <h1 class="title" *ngIf="loginPage">Request Code</h1>
+    <h1 class="title" *ngIf="!loginPage">Verify Code</h1>
+
+    <form [formGroup]="codeRequestForm" *ngIf="!isLoggedIn && loginPage" class="login-form">
+      <mat-form-field appearance="outline" class="input-box">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" name="email" required />
+        <mat-error *ngIf="codeRequestForm?.get('email')?.hasError('required')">Email is required.</mat-error>
+      </mat-form-field>
+      <div class="action-button">
+        <button mat-raised-button type="submit" class="login-button"
+          [disabled]="!codeRequestForm.valid || isSubmitting" (click)="getCode()">
+          Get Code
+        </button>
+      </div>
+    </form>
+
+    <form [formGroup]="ngResetForm" *ngIf="!isLoggedIn && !loginPage" class="login-form">
+      <mat-form-field appearance="outline" class="input-box">
+        <mat-label>Verification Code</mat-label>
+        <input matInput type="text" formControlName="Code" placeholder="Enter a valid code" />
+        <mat-error *ngIf="ngResetForm.get('Code')?.hasError('required')">Code is required!</mat-error>
+      </mat-form-field>
+      <div class="action-button">
+        <button mat-raised-button color="primary" (click)="verifyCode()" [disabled]="!ngResetForm.valid || isSubmitting">Verify Code</button>
+        <button mat-raised-button class="back-button" (click)="toggleFormBack()" [disabled]="isSubmitting">Back</button>
+      </div>
+    </form>
+
+  </div>
+</div>

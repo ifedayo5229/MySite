@@ -1,0 +1,60 @@
+<h2 mat-dialog-title>Assign Technical Owner</h2>
+
+<form (ngSubmit)="submit()" #assignmentForm="ngForm" class="assignment-form">
+
+  <!-- Section 1: Assignment Details -->
+  <div class="form-section">
+    <h3 class="section-title">Assignment Details</h3>
+    <div class="form-grid">
+
+      <mat-form-field appearance="outline" class="compact">
+        <mat-label>Select Owner</mat-label>
+        <mat-select [(ngModel)]="data.assignment.ownerEmail" name="ownerEmail" required>
+          <mat-option *ngFor="let member of teamMembers" [value]="member.email">
+            {{ member.email }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="compact">
+        <mat-label>Priority</mat-label>
+        <mat-select [(ngModel)]="data.assignment.priority" name="priority" required>
+          <mat-option value="Low">Low</mat-option>
+          <mat-option value="Medium">Medium</mat-option>
+          <mat-option value="High">High</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="compact full-width">
+        <mat-label>Comment</mat-label>
+        <input matInput type="text" [(ngModel)]="data.assignment.comment" name="comment" required />
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Section 2: Timeline -->
+  <div class="form-section">
+    <h3 class="section-title">Timeline</h3>
+    <div class="form-grid">
+      <mat-form-field appearance="outline" class="compact">
+        <mat-label>Start Date</mat-label>
+        <input matInput [matDatepicker]="startPicker" [(ngModel)]="data.assignment.startDate" name="startDate" required>
+        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+        <mat-datepicker #startPicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="compact">
+        <mat-label>End Date</mat-label>
+        <input matInput [matDatepicker]="endPicker" [(ngModel)]="data.assignment.endDate" name="endDate" required>
+        <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+        <mat-datepicker #endPicker></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div mat-dialog-actions align="end" class="action-buttons">
+    <button mat-stroked-button color="warn" type="button" (click)="cancel()">Cancel</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="!assignmentForm.form.valid">Submit</button>
+  </div>
+</form>

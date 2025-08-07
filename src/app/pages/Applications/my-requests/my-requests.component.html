@@ -1,0 +1,54 @@
+<section class="wrapper">
+
+  <h2 class="title">
+    <i class="material-icons">list_alt</i>
+    My Requests
+  </h2>
+
+  <!-- Loading indicator -->
+  <div *ngIf="loading" class="loading">
+    <span class="spinner"></span> Loading requests…
+  </div>
+
+  <!-- Empty state -->
+  <div *ngIf="!loading && requests.length === 0" class="empty">
+    <i class="material-icons">inbox</i>
+    <p>No requests found.</p>
+  </div>
+
+  <!-- Requests grid -->
+  <div class="grid" *ngIf="requests.length > 0">
+    <article class="card" *ngFor="let r of requests">
+
+      <!-- Ribbon -->
+      <span class="ribbon" [ngClass]="badge(r.status)">{{ r.status }}</span>
+
+      <!-- Header -->
+      <header>
+        <h3>{{ r.applicationName }}</h3>
+        <p class="subtitle">{{ r.applicationType }}</p>
+      </header>
+
+      <!-- Meta -->
+      <dl class="meta">
+        <div><dt>Location:</dt><dd>{{ r.locationName }}</dd></div>
+        <div><dt>Department:</dt><dd>{{ r.functionName }}</dd></div>
+        <div><dt>Request Date:</dt><dd>{{ r.requestDate | date:'mediumDate' }}</dd></div>
+      </dl>
+
+      <!-- Explanation collapsible -->
+      <details>
+        <summary>See explanation</summary>
+        <p>{{ r.explanation }}</p>
+      </details>
+
+      <!-- Actions -->
+     <div class="actions">
+        <span class="action-link" (click)="viewDetails(r.id)">View Details</span>|
+        
+        <span (click)="downloadFiles(r)">Download Files</span>
+</div>
+    </article>
+  </div>
+
+</section>
