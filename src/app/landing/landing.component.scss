@@ -1426,52 +1426,255 @@
     height: 400px;
     margin: 0 auto;
   }
+
+  .contact-section {
+    .contact-content {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
 }
 
 @media (max-width: 768px) {
   .navbar {
-    padding: 15px 30px;
+    padding: 12px 20px;
+    flex-wrap: wrap;
+
+    .logo .logo-circle {
+      width: 40px;
+      height: 40px;
+      
+      .logo-text {
+        font-size: 16px;
+      }
+    }
 
     .nav-links {
-      gap: 20px;
-      font-size: 12px;
+      gap: 15px;
+      font-size: 11px;
     }
 
     .social-icons {
-      gap: 15px;
+      gap: 10px;
+      
+      .social-icon {
+        mat-icon, i {
+          font-size: 18px;
+        }
+      }
     }
   }
 
   .hero-section {
-    padding: 20px 30px;
+    padding: 20px 20px;
+    min-height: auto;
   }
 
   .left-side .title,
   .right-side .title {
-    font-size: 48px;
+    font-size: 40px;
+  }
+
+  .left-side .description,
+  .right-side .description {
+    font-size: 14px;
+  }
+
+  .hero-name {
+    h2 {
+      font-size: 24px !important;
+    }
+    
+    .hero-title {
+      font-size: 16px !important;
+    }
+    
+    .hero-tagline {
+      font-size: 13px !important;
+    }
+  }
+
+  .code-snippet {
+    font-size: 11px !important;
+    padding: 16px !important;
   }
 
   .content-section {
-    padding: 60px 30px;
+    padding: 40px 20px;
 
     .section-container h2 {
-      font-size: 36px;
+      font-size: 32px;
+    }
+
+    .section-subtitle {
+      font-size: 16px;
+    }
+  }
+
+  .journey-content {
+    grid-template-columns: 1fr !important;
+    gap: 30px !important;
+  }
+
+  .skills-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
+  .experience-card {
+    padding: 20px !important;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
+  .contact-section {
+    padding: 40px 20px !important;
+
+    .section-title {
+      font-size: 32px !important;
+    }
+
+    .section-subtitle-white {
+      font-size: 16px !important;
+    }
+
+    .hire-me-text {
+      font-size: 14px !important;
+      padding: 20px !important;
+      line-height: 1.6 !important;
+    }
+
+    .contact-content {
+      grid-template-columns: 1fr !important;
+      gap: 30px !important;
+    }
+
+    .contact-info {
+      order: 2;
+    }
+
+    .contact-form-container {
+      order: 1;
+      padding: 25px !important;
+      margin-bottom: 20px;
+    }
+
+    .contact-item {
+      padding: 15px !important;
+      margin-bottom: 15px !important;
+      
+      mat-icon {
+        font-size: 24px !important;
+        width: 24px !important;
+        height: 24px !important;
+      }
+
+      h4 {
+        font-size: 14px !important;
+      }
+
+      a {
+        font-size: 13px !important;
+      }
+    }
+
+    .contact-form {
+      mat-form-field {
+        width: 100% !important;
+      }
+
+      button {
+        width: 100% !important;
+        padding: 14px 20px !important;
+      }
+    }
+  }
+
+  .footer {
+    padding: 30px 20px !important;
+
+    .footer-content {
+      p {
+        font-size: 13px !important;
+      }
+
+      .footer-links {
+        gap: 15px !important;
+        flex-wrap: wrap;
+        
+        a {
+          font-size: 13px !important;
+        }
+      }
     }
   }
 }
 
 @media (max-width: 480px) {
-  .navbar .nav-links {
-    display: none;
+  .navbar {
+    padding: 10px 15px;
+
+    .nav-links {
+      display: none !important;
+    }
+
+    .social-icons {
+      gap: 8px;
+    }
   }
 
   .left-side .title,
   .right-side .title {
-    font-size: 36px;
+    font-size: 28px !important;
   }
 
   .center-image .image-container {
-    width: 250px;
-    height: 350px;
+    width: 220px !important;
+    height: 300px !important;
+  }
+
+  .hero-name h2 {
+    font-size: 20px !important;
+  }
+
+  .section-title {
+    font-size: 28px !important;
+  }
+
+  .content-section {
+    padding: 30px 15px !important;
+  }
+
+  .contact-section {
+    padding: 30px 15px !important;
+
+    .hire-me-text {
+      font-size: 13px !important;
+      padding: 15px !important;
+    }
+
+    .contact-form-container {
+      padding: 20px !important;
+    }
+
+    .contact-item {
+      flex-direction: column !important;
+      align-items: center !important;
+      text-align: center !important;
+      padding: 12px !important;
+      
+      mat-icon {
+        margin-bottom: 10px !important;
+      }
+
+      div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
   }
 }
