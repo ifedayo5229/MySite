@@ -32,6 +32,9 @@ import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { AssignRolesComponent } from './pages/Roles/assign-roles/assign-roles.component';
@@ -44,6 +47,10 @@ import { MyRequestsComponent } from './pages/Applications/my-requests/my-request
 import { RequestDetailsDialogComponent } from './pages/Applications/request-details-dialog/request-details-dialog.component';
 import { ApplicationRequestDetailsforAdminComponent } from './pages/application-request-detailsfor-admin/application-request-details.component';
 import { AssignTechnicalownerdialogComponent } from './pages/assign-technicalownerdialog/assign-technicalownerdialog.component';
+import { UserManagementComponent } from './pages/user-management/user-management.component';
+import { AssignRoleDialogComponent } from './pages/user-management/assign-role-dialog/assign-role-dialog.component';
+import { UserDetailsDialogComponent } from './pages/user-management/user-details-dialog/user-details-dialog.component';
+import { LiveApplicationsComponent } from './pages/Applications/live-applications/live-applications.component';
 
  
 
@@ -68,6 +75,10 @@ import { AssignTechnicalownerdialogComponent } from './pages/assign-technicalown
     RequestDetailsDialogComponent,
     ApplicationRequestDetailsforAdminComponent,
     AssignTechnicalownerdialogComponent,
+    UserManagementComponent,
+    AssignRoleDialogComponent,
+    UserDetailsDialogComponent,
+    LiveApplicationsComponent,
   ],
   imports: [
     BrowserModule,
@@ -96,6 +107,9 @@ import { AssignTechnicalownerdialogComponent } from './pages/assign-technicalown
     MatDialogModule,
     MatListModule,
     MatMenuModule,
+    MatTooltipModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
     NgxMatSelectSearchModule,
     
   ],

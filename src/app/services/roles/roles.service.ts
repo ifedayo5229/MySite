@@ -39,9 +39,7 @@ export class RolesService {
   }
 
   removeRoleFromUser(vm: any): Observable<ApiResponseObject<Profile>> {
-    debugger
-   
-    return this.httpClient.post<ApiResponseObject<Profile>>(`${environment.apiUrl}/User/removeRoleToUser`, vm);
+    return this.httpClient.post<ApiResponseObject<Profile>>(`${environment.apiUrl}/User/removeUserRole`, vm);
   }
 
 }

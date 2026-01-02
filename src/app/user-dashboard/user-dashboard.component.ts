@@ -55,23 +55,41 @@ onFileSelected(event: Event): void {
   }
 }
   private loadData(): void {
-    const userId = this.currentUser?.id;
-    if (!userId) return;
-
-    // Load user's applications
-    this.applicationService.getUserApplications(userId).subscribe(apps => {
-      this.myRequests = apps;
-    });
-
-    // Load pending approvals
-    this.applicationService.getPendingApprovals(userId).subscribe(apps => {
-      this.pendingApprovals = apps;
-    });
-
-    // Load all applications for change requests
-    this.applicationService.getApplications().subscribe(apps => {
-      // Filter out current user's applications
-      this.allApplications = apps.filter(app => app.requestedBy !== userId);
+    console.log('🔍 Current User Object:', this.currentUser);
+    console.log('📧 User Email:', this.currentUser?.email);
+    
+    // Load user's applications using GetMyApplicationRequest
+    this.applicationService.GetMyApplicationRequest().subscribe({
+      next: (response) => {
+        console.log('📥 API Response:', response);
+        console.log('📦 Response Data:', response?.responseData);
+        
+        // Try multiple possible response structures
+        const data = response?.responseData || response?.data;
+        
+        if (data && Array.isArray(data)) {
+          this.myRequests = data as any[];
+          console.log('✅ User applications loaded:', this.myRequests.length, 'items');
+          console.log('📋 Applications with statuses:', this.myRequests.map(app => ({ 
+            title: (app as any).applicationName || app.title, 
+            status: app.status 
+          })));
+          
+          // Log counts for each status
+          console.log('📊 Status Counts:');
+          console.log('  Pending Review:', this.countPendingReview());
+          console.log('  Approved:', this.countApproved());
+          console.log('  In Progress:', this.countInProgress());
+          console.log('  Live:', this.countLive());
+        } else {
+          console.warn('⚠️ No data found in response or data is not an array');
+          this.myRequests = [];
+        }
+      },
+      error: (error) => {
+        console.error('❌ Error loading user applications:', error);
+        this.myRequests = [];
+      }
     });
   }
 
@@ -123,7 +141,13 @@ onFileSelected(event: Event): void {
   }
 
   getStatusClass(status: string): string {
-    switch (status) {
+    const statusLower = status?.toLowerCase() || '';
+    if (statusLower.includes('pending')) return 'warning';
+    if (statusLower.includes('approved')) return 'success';
+    if (statusLower.includes('progress')) return 'primary';
+    if (statusLower.includes('live')) return 'success';
+    
+    switch (statusLower) {
       case 'submitted': return 'primary';
       case 'in-progress': return 'warning';
       case 'pending-approval': return 'secondary';
@@ -132,6 +156,35 @@ onFileSelected(event: Event): void {
       case 'live': return 'success';
       default: return 'secondary';
     }
+  }
+
+  navigateToMyRequests(applicationId: string): void {
+    // Navigate to my-requests page with the application ID as query parameter
+    this.router.navigate(['/home/my-requests'], { 
+      queryParams: { highlight: applicationId },
+      queryParamsHandling: 'merge'
+    });
+  }
+
+  // Helper methods to get app properties safely
+  getAppName(app: any): string {
+    return app.applicationName || app.title || '';
+  }
+
+  getAppDescription(app: any): string {
+    return app.explanation || app.description || '';
+  }
+
+  getAppRequestType(app: any): string {
+    return app.requestType || app.category || '';
+  }
+
+  getAppDepartment(app: any): string {
+    return app.department || '';
+  }
+
+  getAppDate(app: any): Date | string {
+    return app.requestDate || app.createdAt || new Date();
   }
 
   viewApplication(id: string): void {
@@ -161,6 +214,40 @@ onFileSelected(event: Event): void {
   requestChange(applicationId: string, applicationTitle: string): void {
     // This would open a modal to create change request
     console.log('Request change for application:', applicationId, applicationTitle);
+  }
+
+  // Status count methods
+  countPendingReview(): number {
+    return this.myRequests.filter(app => (app.status as any) === 'Pending Application Team Review').length;
+  }
+
+  countApproved(): number {
+    return this.myRequests.filter(app => (app.status as any) === 'Approved and Ready for Implementation').length;
+  }
+
+  countInProgress(): number {
+    return this.myRequests.filter(app => (app.status as any) === 'Implementation In Progress').length;
+  }
+
+  countLive(): number {
+    return this.myRequests.filter(app => (app.status as any) === 'Live').length;
+  }
+
+  // Filter methods to get requests by status
+  getPendingReviewRequests(): ApplicationRequest[] {
+    return this.myRequests.filter(app => (app.status as any) === 'Pending Application Team Review');
+  }
+
+  getApprovedRequests(): ApplicationRequest[] {
+    return this.myRequests.filter(app => (app.status as any) === 'Approved and Ready for Implementation');
+  }
+
+  getInProgressRequests(): ApplicationRequest[] {
+    return this.myRequests.filter(app => (app.status as any) === 'Implementation In Progress');
+  }
+
+  getLiveRequests(): ApplicationRequest[] {
+    return this.myRequests.filter(app => (app.status as any) === 'Live');
   }
 
   logout(): void {

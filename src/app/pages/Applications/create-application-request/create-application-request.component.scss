@@ -6,27 +6,69 @@
   margin: 40px auto;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
   font-family: 'Segoe UI', sans-serif;
+  min-height: calc(100vh - 120px);
+  box-sizing: border-box;
 
   .form-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e3f2fd;
 
-    h3 {
-      margin: 0;
-      font-size: 22px;
-      color: #2f4858;
+    .header-content {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+      .header-icon {
+        width: 48px;
+        height: 48px;
+        background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(25, 118, 210, 0.25);
+
+        mat-icon {
+          color: #ffffff;
+          font-size: 28px;
+          width: 28px;
+          height: 28px;
+        }
+      }
+
+      h3 {
+        margin: 0;
+        font-size: 24px;
+        font-weight: 600;
+        color: #2f4858;
+      }
     }
 
     .close-btn {
       background: transparent;
       border: none;
-      font-size: 24px;
       cursor: pointer;
-      color: #555;
+      color: #666;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+
+      mat-icon {
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
+      }
 
       &:hover {
+        background: #ffebee;
         color: #d32f2f;
       }
     }
@@ -67,8 +109,9 @@
         transition: border-color 0.2s;
 
         &:focus {
-          border-color: #4caf50;
+          border-color: #1976d2;
           outline: none;
+          box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
         }
       }
 
@@ -103,15 +146,16 @@
         }
 
         &.submit {
-          background: #4caf50;
+          background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
           color: white;
 
           &:hover {
-            background: #43a047;
+            background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%);
+            box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
           }
 
           &:disabled {
-            background: #a5d6a7;
+            background: #bbdefb;
             cursor: not-allowed;
           }
         }

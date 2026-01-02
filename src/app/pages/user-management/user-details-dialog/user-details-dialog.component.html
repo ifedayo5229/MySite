@@ -1,0 +1,160 @@
+<div class="dialog-header">
+  <div class="header-content">
+    <div class="header-icon">
+      <mat-icon>account_circle</mat-icon>
+    </div>
+    <div class="header-text">
+      <h2>{{ data?.user?.firstName }} {{ data?.user?.lastName }}</h2>
+      <p>{{ data?.user?.position || 'Employee' }}</p>
+    </div>
+  </div>
+  <button mat-icon-button class="close-button" (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<div mat-dialog-content class="dialog-content">
+  <!-- Personal Information Card -->
+  <div class="info-card">
+    <div class="card-header">
+      <mat-icon class="header-icon">person</mat-icon>
+      <h3>Personal Information</h3>
+    </div>
+    <div class="card-body">
+      <div class="info-row">
+        <div class="info-label">
+          <mat-icon>badge</mat-icon>
+          <span>Full Name</span>
+        </div>
+        <div class="info-value">{{ data?.user?.firstName }} {{ data?.user?.lastName }}</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">
+          <mat-icon>email</mat-icon>
+          <span>Email</span>
+        </div>
+        <div class="info-value">{{ data?.user?.email }}</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">
+          <mat-icon>fingerprint</mat-icon>
+          <span>Employee ID</span>
+        </div>
+        <div class="info-value">{{ data?.user?.employeeId || 'N/A' }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Work Information Card -->
+  <div class="info-card">
+    <div class="card-header">
+      <mat-icon class="header-icon">work</mat-icon>
+      <h3>Work Information</h3>
+    </div>
+    <div class="card-body">
+      <div class="info-row">
+        <div class="info-label">
+          <mat-icon>location_on</mat-icon>
+          <span>Location</span>
+        </div>
+        <div class="info-value">{{ data?.user?.locationName || 'N/A' }}</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">
+          <mat-icon>business</mat-icon>
+          <span>Department</span>
+        </div>
+        <div class="info-value">{{ data?.user?.functionName || 'N/A' }}</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">
+          <mat-icon>work_outline</mat-icon>
+          <span>Position</span>
+        </div>
+        <div class="info-value">{{ data?.user?.position || 'N/A' }}</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">
+          <mat-icon>corporate_fare</mat-icon>
+          <span>Unit</span>
+        </div>
+        <div class="info-value">{{ data?.user?.unit || 'N/A' }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Roles Information Card -->
+  <div class="info-card">
+    <div class="card-header">
+      <mat-icon class="header-icon">verified_user</mat-icon>
+      <h3>Assigned Roles</h3>
+      <button mat-raised-button color="primary" class="assign-role-btn" (click)="assignRoles()">
+        <mat-icon>add</mat-icon>
+        Assign Roles
+      </button>
+    </div>
+    <div class="card-body">
+      <div class="roles-grid" *ngIf="!isLoadingRoles && userRoles.length > 0">
+        <div class="modern-role-chip" *ngFor="let role of userRoles">
+          <div class="role-icon">
+            <mat-icon>shield</mat-icon>
+          </div>
+          <div class="role-content">
+            <div class="role-name">{{ role.roleName }}</div>
+            <div class="role-desc">{{ role.roleDescription }}</div>
+          </div>
+          <button mat-icon-button class="remove-role-btn" (click)="removeRole(role)" matTooltip="Remove this role">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div *ngIf="!isLoadingRoles && userRoles.length === 0" class="empty-state">
+        <mat-icon>info_outline</mat-icon>
+        <span>No roles assigned yet</span>
+      </div>
+      <div *ngIf="isLoadingRoles" class="loading-state">
+        <mat-spinner diameter="32"></mat-spinner>
+        <span>Loading roles...</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reporting Structure Card -->
+  <div class="info-card" *ngIf="data?.user?.lineManager || data?.user?.headOfUnit">
+    <div class="card-header">
+      <mat-icon class="header-icon">group</mat-icon>
+      <h3>Reporting Structure</h3>
+    </div>
+    <div class="card-body">
+      <div class="info-row" *ngIf="data?.user?.lineManager">
+        <div class="info-label">
+          <mat-icon>supervisor_account</mat-icon>
+          <span>Line Manager</span>
+        </div>
+        <div class="info-value">{{ data?.user?.lineManager }}</div>
+      </div>
+      <div class="info-row" *ngIf="data?.user?.lineManagerEmail">
+        <div class="info-label">
+          <mat-icon>alternate_email</mat-icon>
+          <span>Manager Email</span>
+        </div>
+        <div class="info-value">{{ data?.user?.lineManagerEmail }}</div>
+      </div>
+      <div class="info-row" *ngIf="data?.user?.headOfUnit">
+        <div class="info-label">
+          <mat-icon>account_tree</mat-icon>
+          <span>Head of Unit</span>
+        </div>
+        <div class="info-value">{{ data?.user?.headOfUnit }}</div>
+      </div>
+      <div class="info-row" *ngIf="data?.user?.headOfFunction">
+        <div class="info-label">
+          <mat-icon>manage_accounts</mat-icon>
+          <span>Head of Function</span>
+        </div>
+        <div class="info-value">{{ data?.user?.headOfFunction }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+

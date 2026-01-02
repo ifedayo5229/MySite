@@ -58,12 +58,24 @@ export class CreateApplicationRequestComponent implements OnInit {
     const info          = this.token.getInfo();
     this.currentUser    = info;
     this.email          = info.profile.email;
-    this.locationId     = info.profile.locationId;
-    this.functionId     = info.profile.functionId;
+    this.locationId     = info.profile.locationId ?? 0;
+    this.functionId     = info.profile.functionId ?? 0;
+
+    console.log('👤 LOGGED-IN USER INFORMATION:');
+    console.log('  📧 Email:', this.email);
+    console.log('  🏢 Function ID:', this.functionId);
+    console.log('  📍 Location ID:', this.locationId);
+    console.log('  🔖 Full Name:', info.profile.fullname);
+    console.log('  👔 Role:', info.profile.roleName);
+    console.log('  🆔 User ID:', info.profile.id);
+    console.log('  🏭 Department:', info.profile.functionName);
+    console.log('  📍 Location Name:', info.profile.locationName);
+    console.log('  🔐 Access Token:', info.accessToken ? info.accessToken.substring(0, 30) + '...' : 'None');
+    console.log('  📦 Full Profile Object:', info.profile);
 
     this.newRequest.owner      = this.email;
     this.newRequest.department = info.profile.functionName;
-    this.newRequest.location   = info.profile.locationName;
+    this.newRequest.location   = info.profile.locationName ?? '';
   }
 
   private loadCategories(): void {
@@ -89,6 +101,11 @@ export class CreateApplicationRequestComponent implements OnInit {
   if (this.isSubmitting) return;
   this.isSubmitting = true;
 
+  console.log('📝 CREATING APPLICATION REQUEST');
+  console.log('  👤 Current User Email:', this.email);
+  console.log('  🏢 Function ID:', this.functionId);
+  console.log('  📍 Location ID:', this.locationId);
+
   const formData = new FormData();
   formData.append('functionId', this.functionId.toString());
   formData.append('applicationType', this.newRequest.category);
@@ -99,18 +116,33 @@ export class CreateApplicationRequestComponent implements OnInit {
   formData.append('justification', this.newRequest.justification);
   formData.append('businessImpact', this.newRequest.businessImpact);
 
+  console.log('📋 FormData Contents:');
+  console.log('  - functionId:', this.functionId.toString());
+  console.log('  - applicationType:', this.newRequest.category);
+  console.log('  - applicationName:', this.newRequest.title);
+  console.log('  - locationId:', this.locationId.toString());
+  console.log('  - owner:', this.newRequest.owner);
+  console.log('  - explanation:', this.newRequest.explanation);
+  console.log('  - justification:', this.newRequest.justification);
+  console.log('  - businessImpact:', this.newRequest.businessImpact);
+  console.log('  - Files Count:', this.selectedFiles.length);
+
   for (const file of this.selectedFiles) {
     formData.append('UploadFiles', file);
+    console.log('  📎 File attached:', file.name, '- Size:', file.size, 'bytes');
   }
 
   try {
-    await this.appSvc.createApplicationRequest(formData).toPromise();
+    console.log('🚀 Sending request to API...');
+    const response = await this.appSvc.createApplicationRequest(formData).toPromise();
+    console.log('✅ API Response:', response);
     this.toastr.success('Request created successfully');
     this.resetForm();
     this.showCreateForm = false;
   } catch (err) {
     debugger
-    console.error(err);
+    console.error('❌ API Error:', err);
+    console.error('❌ Error Details:', JSON.stringify(err, null, 2));
     this.toastr.error('Something went wrong');
   } finally {
     this.isSubmitting = false;

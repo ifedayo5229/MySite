@@ -2,10 +2,37 @@ export interface User {
     id: string;
     firstName: string;
     lastName: string;
+    fullname?: string;
     email: string;
-    locationId?: number,
-    locationName?: string,
-    functionId?: number,
-    functionName?: string,
-    roles: any;
+    position?: string;
+    employeeId?: string;
+    isSuperAdmin?: boolean;
+    locationId?: number;
+    locationName?: string;
+    functionId?: number;
+    functionName?: string;
+    unitId?: number;
+    unit?: string;
+    lineManager?: string;
+    lineManagerEmail?: string;
+    headOfUnit?: string;
+    headOfUnitEmail?: string;
+    headOfFunction?: string;
+    headOfFunctionEmail?: string;
+    hrbp?: string;
+    hrbpEmail?: string;
+    managerId?: string;
+    lockoutCounter?: number;
+    isLockedOut?: boolean;
+    dateAccountLocked?: string;
+    mustChangePassword?: boolean;
+    lastLogin?: string;
+    isAway?: boolean;
+    delegationId?: number;
+    isActive?: boolean;
+    createdDate?: string;
+    createdBy?: string;
+    modifiedDate?: string;
+    isDeleted?: boolean;
+    roles?: any;
 }

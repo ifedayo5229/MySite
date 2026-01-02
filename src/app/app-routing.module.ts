@@ -11,6 +11,8 @@ import { UserDashboardComponent } from './user-dashboard/user-dashboard.componen
 import { MyRequestsComponent } from './pages/Applications/my-requests/my-requests.component';
 import { ApplicationRequestDetailsforAdminComponent } from './pages/application-request-detailsfor-admin/application-request-details.component';
 import { RequestDetailsDialogComponent } from './pages/Applications/request-details-dialog/request-details-dialog.component';
+import { UserManagementComponent } from './pages/user-management/user-management.component';
+import { LiveApplicationsComponent } from './pages/Applications/live-applications/live-applications.component';
 
 
 const routes: Routes = [
@@ -27,7 +29,9 @@ const routes: Routes = [
       { path: "create-application-request", component: CreateApplicationRequestComponent},
       { path: "my-requests", component: MyRequestsComponent},
       {path: 'application-request-details', component: ApplicationRequestDetailsforAdminComponent},
-      { path: 'request-details-dialog', component: RequestDetailsDialogComponent }
+      { path: 'request-details-dialog', component: RequestDetailsDialogComponent },
+      { path: 'user-management', component: UserManagementComponent },
+      { path: 'live-applications', component: LiveApplicationsComponent }
 
       
 

@@ -3,9 +3,9 @@
 // Include the common styles for Angular Material
 @include mat.core();
 
-// Define your custom color palettes
-$custom-primary: mat.define-palette(mat.$green-palette);
-$custom-accent: mat.define-palette(mat.$light-green-palette);
+// Define your custom color palettes - Changed to Blue theme
+$custom-primary: mat.define-palette(mat.$blue-palette);
+$custom-accent: mat.define-palette(mat.$light-blue-palette);
 $custom-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object
@@ -20,17 +20,39 @@ $custom-theme: mat.define-light-theme((
 // Include the custom theme styles
 @include mat.all-component-themes($custom-theme);
 
+// REMOVE ALL TABLE BORDERS - Theme level override
+.mat-mdc-table,
+.mat-table {
+  .mat-mdc-row,
+  .mat-row,
+  .mat-mdc-header-row,
+  .mat-header-row {
+    border-bottom-width: 0 !important;
+    border-bottom: none !important;
+    border: none !important;
+  }
+
+  .mat-mdc-cell,
+  .mat-cell,
+  .mat-mdc-header-cell,
+  .mat-header-cell {
+    border-bottom-width: 0 !important;
+    border-bottom: none !important;
+    border: none !important;
+  }
+}
+
 // Custom styles for input fields
 .mat-mdc-form-field {
   .mdc-text-field--filled {
-    background-color: rgba(227, 18, 39, 0.1); // Light green background
+    background-color: rgba(25, 118, 210, 0.05); // Light blue background
   }
 
   .mdc-text-field--outlined {
     .mdc-notched-outline__leading,
     .mdc-notched-outline__notch,
     .mdc-notched-outline__trailing {
-      border-color: rgb(8, 8, 8); // outline when not focused
+      border-color: #e0e0e0; // outline when not focused
     }
   }
 
@@ -38,7 +60,7 @@ $custom-theme: mat.define-light-theme((
     .mdc-notched-outline__leading,
     .mdc-notched-outline__notch,
     .mdc-notched-outline__trailing {
-      border-color: darkgreen; // Darker green outline when focused
+      border-color: #1976d2; // Blue outline when focused
     }
   }
 
@@ -68,16 +90,18 @@ $custom-theme: mat.define-light-theme((
   }
 }
 
-// Custom styles for buttons
+// Custom styles for buttons - Changed to Blue theme
 .mat-mdc-raised-button,
 .mat-mdc-outlined-button,
 .mat-mdc-button {
-  background: linear-gradient(45deg, #01925B, #01925B) !important; // Lafarge green shades
+  background: linear-gradient(135deg, #1976d2, #1565c0) !important; // Blue gradient
   color: white !important;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
 
   &:hover {
-    background: linear-gradient(45deg, #006400, #228B22) !important; // Darker green shades on hover
+    background: linear-gradient(135deg, #1565c0, #0d47a1) !important; // Darker blue on hover
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
   }
 }
 

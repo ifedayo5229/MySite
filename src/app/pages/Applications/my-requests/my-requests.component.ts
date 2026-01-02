@@ -14,13 +14,36 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class MyRequestsComponent {
  loading   = true;
   requests: ApplicationVm[] = [];
+  highlightedId: string | null = null;
 
-  constructor(private router: Router,
-  
-    private appSvc: ApplicationService,private dialog: MatDialog) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private appSvc: ApplicationService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
+    // Get highlighted application ID from query params
+    this.route.queryParams.subscribe(params => {
+      this.highlightedId = params['highlight'] || null;
+      if (this.highlightedId) {
+        console.log('Highlighting application:', this.highlightedId);
+        // Scroll to highlighted element after view is rendered
+        setTimeout(() => this.scrollToHighlighted(), 500);
+      }
+    });
+    
     this.fetchRequests();
+  }
+
+  private scrollToHighlighted(): void {
+    if (this.highlightedId) {
+      const element = document.getElementById(`app-${this.highlightedId}`);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
   }
 
   /** Call the API and populate the grid */
@@ -77,6 +100,8 @@ addComment(r: ApplicationVm) {
 
   /** Returns badge‑class based on status value */
   badge(status: string): string {
-    return 'badge-' + (status || '').toLowerCase();
+    if (!status) return 'badge-pending';
+    // Convert status to lowercase and replace spaces with hyphens
+    return 'badge-' + status.toLowerCase().replace(/\s+/g, '-');
   }
 }

@@ -25,14 +25,14 @@
               <h3>My Requests</h3>
               <p>View your submitted requests</p>
             </div>
-            <div class="action-card" (click)="activeTab = 'pending-approvals'">
+            <div class="action-card">
               <div class="action-icon">
                 <i class="material-icons">pending_actions</i>
               </div>
               <h3>Pending Approvals</h3>
               <p>Review requests awaiting your approval</p>
             </div>
-            <div class="action-card" (click)="activeTab = 'change-requests'">
+            <div class="action-card">
               <div class="action-icon">
                 <i class="material-icons">edit</i>
               </div>
@@ -132,27 +132,29 @@
         <div class="container">
           <div class="tab-navigation">
             <button class="tab-btn" [class.active]="activeTab === 'my-requests'" (click)="activeTab = 'my-requests'">
-              My Requests ({{ myRequests.length }})
+              Pending Review ({{ countPendingReview() }})
             </button>
             <button class="tab-btn" [class.active]="activeTab === 'pending-approvals'" (click)="activeTab = 'pending-approvals'">
-              Pending Approvals ({{ pendingApprovals.length }})
+              Approved ({{ countApproved() }})
             </button>
             <button class="tab-btn" [class.active]="activeTab === 'change-requests'" (click)="activeTab = 'change-requests'">
-              Change Requests
+              In Progress ({{ countInProgress() }})
+            </button>
+            <button class="tab-btn" [class.active]="activeTab === 'live'" (click)="activeTab = 'live'">
+              Live ({{ countLive() }})
             </button>
           </div>
 
           <!-- My Requests Tab -->
           <div *ngIf="activeTab === 'my-requests'" class="tab-content">
-            <div *ngIf="myRequests.length === 0" class="empty-state">
+            <div *ngIf="getPendingReviewRequests().length === 0" class="empty-state">
               <i class="material-icons">inbox</i>
-              <h3>No requests found</h3>
-              <p>You haven't created any application requests yet.</p>
-              <button class="btn-primary" (click)="showCreateForm = true">Create Your First Request</button>
+              <h3>No pending review requests</h3>
+              <p>You don't have any requests pending review at the moment.</p>
             </div>
             
             <div class="applications-grid">
-              <div *ngFor="let app of myRequests" class="application-card">
+              <div *ngFor="let app of getPendingReviewRequests()" class="application-card">
                 <div class="card-header">
                   <div class="app-title">
                     <h3>{{ app.title }}</h3>
@@ -197,65 +199,62 @@
             </div>
           </div>
 
-          <!-- Pending Approvals Tab -->
+          <!-- Approved Tab -->
           <div *ngIf="activeTab === 'pending-approvals'" class="tab-content">
-            <div *ngIf="pendingApprovals.length === 0" class="empty-state">
+            <div *ngIf="getApprovedRequests().length === 0" class="empty-state">
               <i class="material-icons">check_circle_outline</i>
-              <h3>No pending approvals</h3>
-              <p>You don't have any requests waiting for your approval.</p>
+              <h3>No approved requests</h3>
+              <p>You don't have any approved requests.</p>
             </div>
             
             <div class="applications-grid">
-              <div *ngFor="let app of pendingApprovals" class="application-card approval-card">
+              <div *ngFor="let app of getApprovedRequests()" class="application-card approval-card" (click)="navigateToMyRequests(app.id)" style="cursor: pointer;">
                 <div class="card-header">
                   <div class="app-title">
-                    <h3>{{ app.title }}</h3>
-                    <span class="badge badge-warning">APPROVAL REQUIRED</span>
+                    <h3>{{ getAppName(app) }}</h3>
+                    <span class="badge" [ngClass]="'badge-' + getStatusClass(app.status)">
+                      {{ app.status | uppercase }}
+                    </span>
                   </div>
                 </div>
                 
                 <div class="card-body">
-                  <p class="app-description">{{ app.description }}</p>
-                  <div class="requester-info">
-                    <strong>Requested by:</strong> {{ app.requestedByName }}
-                  </div>
+                  <p class="app-description">{{ getAppDescription(app) }}</p>
                   <div class="app-details">
                     <div class="detail-item">
-                      <i class="material-icons">category</i>
-                      <span>{{ app.category }}</span>
+                      <span>{{ getAppRequestType(app) }}</span>
                     </div>
                     <div class="detail-item">
-                      <i class="material-icons">business</i>
-                      <span>{{ app.department }}</span>
+                      <span>{{ getAppDepartment(app) }}</span>
+                    </div>
+                    <div class="detail-item">
+                      <i class="material-icons">calendar_today</i>
+                      <span>{{ getAppDate(app) | date:'short' }}</span>
                     </div>
                   </div>
-                </div>
-                
-                <div class="card-actions approval-actions">
-                  <button class="btn-success btn-sm" (click)="approveRequest(app.id)">
-                    <i class="material-icons">check</i> Approve
-                  </button>
-                  <button class="btn-danger btn-sm" (click)="rejectRequest(app.id)">
-                    <i class="material-icons">close</i> Reject
-                  </button>
-                  <button class="btn-secondary btn-sm" (click)="viewApplication(app.id)">View Details</button>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Change Requests Tab -->
+          <!-- In Progress Tab -->
           <div *ngIf="activeTab === 'change-requests'" class="tab-content">
             <div class="section-header">
-              <h3>Available Applications</h3>
-              <p>Select an application to request changes</p>
+              <h3>In Progress Applications</h3>
+              <p>Applications currently being implemented</p>
+            </div>
+
+            <div *ngIf="getInProgressRequests().length === 0" class="empty-state">
+              <i class="material-icons">inbox</i>
+              <h3>No applications in progress</h3>
+              <p>You don't have any applications currently being implemented.</p>
             </div>
             
             <div class="applications-grid">
-              <div *ngFor="let app of allApplications" class="application-card change-request-card">
+              <div *ngFor="let app of getInProgressRequests()" class="application-card change-request-card" (click)="navigateToMyRequests(app.id)" style="cursor: pointer;">
                 <div class="card-header">
                   <div class="app-title">
-                    <h3>{{ app.title }}</h3>
+                    <h3>{{ getAppName(app) }}</h3>
                     <span class="badge" [ngClass]="'badge-' + getStatusClass(app.status)">
                      {{ app.status | uppercase }}
                     </span>
@@ -263,23 +262,60 @@
                 </div>
                 
                 <div class="card-body">
-                  <p class="app-description">{{ app.description }}</p>
+                  <p class="app-description">{{ getAppDescription(app) }}</p>
                   <div class="app-details">
                     <div class="detail-item">
-                      <i class="material-icons">person</i>
-                      <span>Created by {{ app.requestedByName }}</span>
+                      <span>{{ getAppRequestType(app) }}</span>
                     </div>
                     <div class="detail-item">
-                      <i class="material-icons">business</i>
-                      <span>{{ app.department }}</span>
+                      <span>{{ getAppDepartment(app) }}</span>
+                    </div>
+                    <div class="detail-item">
+                      <i class="material-icons">calendar_today</i>
+                      <span>{{ getAppDate(app) | date:'short' }}</span>
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Tab -->
+          <div *ngIf="activeTab === 'live'" class="tab-content">
+            <div class="section-header">
+              <h3>Live Applications</h3>
+              <p>Applications that are currently live in production</p>
+            </div>
+
+            <div *ngIf="getLiveRequests().length === 0" class="empty-state">
+              <i class="material-icons">check_circle</i>
+              <h3>No live applications</h3>
+              <p>You don't have any applications that are live yet.</p>
+            </div>
+            
+            <div class="applications-grid">
+              <div *ngFor="let app of getLiveRequests()" class="application-card" (click)="navigateToMyRequests(app.id)" style="cursor: pointer;">
+                <div class="card-header">
+                  <div class="app-title">
+                    <h3>{{ getAppName(app) }}</h3>
+                    <span class="badge badge-success">LIVE</span>
+                  </div>
+                </div>
                 
-                <div class="card-actions">
-                  <button class="btn-primary btn-sm" (click)="requestChange(app.id, app.title)">
-                    Request Change
-                  </button>
+                <div class="card-body">
+                  <p class="app-description">{{ getAppDescription(app) }}</p>
+                  <div class="app-details">
+                    <div class="detail-item">
+                      <span>{{ getAppRequestType(app) }}</span>
+                    </div>
+                    <div class="detail-item">
+                      <span>{{ getAppDepartment(app) }}</span>
+                    </div>
+                    <div class="detail-item">
+                      <i class="material-icons">calendar_today</i>
+                      <span>{{ getAppDate(app) | date:'short' }}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

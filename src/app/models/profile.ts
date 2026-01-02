@@ -1,29 +1,29 @@
 export interface Profile {
-    firstName: string;
+  firstName: string;
   lastName: string;
   fullname: string;
   email: string;
-  position: string;
-  phoneNumber: string; // if not provided, keep it optional with ?
+  lineManager?: string;
+  headOfUnit?: string;
+  headOfFunction?: string;
+  phoneNumber: string;
   isEmailConfirmed: boolean;
   isSuperAdmin: boolean;
   departmentId: number;
   designationId: number;
+  functionName: string;
   id: string;
   isActive: boolean;
   roleId: number;
   roleName: string;
-  designationName: string;
   departmentName: string;
+  position: string;
+  designationName: string;
   isManager: boolean;
   managerId: string;
-  functionName: string;
-  functionId: number;
-  locationId: number;
-  locationName: string;
-  unitId: number;
-  unit: string;
   mustChangePassword: boolean;
-  employeeId: string;
-  // createdDate?: Date; // uncomment if needed
+  locationId?: number;
+  locationName?: string;
+  functionId?: number;
 }
+

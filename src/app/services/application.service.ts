@@ -17,9 +17,13 @@ export class ApplicationService {
   [x: string]: any;
 
   private getHeaders(): HttpHeaders {
+    const userEmail = localStorage.getItem('EM') || '';
+    console.log('🔧 Service getHeaders() - User Email:', userEmail);
+    
     return new HttpHeaders({
       'Authorization': `Bearer ${localStorage.getItem('AT')}`,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-User-Email': userEmail
     });
   }
 
@@ -195,7 +199,34 @@ getApplicationRequestById(id: number | string): Observable<ApiResponseObject<any
 
   createApplicationRequest(model: FormData){
     debugger;
-    return this.httpClient.post(`${environment.apiUrl}/Application/CreateApplicationRequest`, model);
+    const userEmail = localStorage.getItem('EM') || '';
+    const userName = localStorage.getItem('FULLNAME') || '';
+    const userId = localStorage.getItem('ID') || '';
+    const accessToken = localStorage.getItem('AT') || '';
+    
+    
+    
+    // Log FormData contents (note: FormData doesn't support direct iteration in all browsers)
+    const formDataEntries: any[] = [];
+    (model as any).forEach((value: any, key: string) => {
+      if (value instanceof File) {
+        formDataEntries.push({ key, value: `File: ${value.name} (${value.size} bytes)` });
+      } else {
+        formDataEntries.push({ key, value });
+      }
+    });
+    console.table(formDataEntries);
+    
+    // Create headers WITHOUT Content-Type (browser sets it automatically for FormData)
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${accessToken}`,
+      'X-User-Email': userEmail,
+      'X-User-Name': userName,
+      'X-User-Id': userId
+    });
+    
+    
+    return this.httpClient.post(`${environment.apiUrl}/Application/CreateApplicationRequest`, model, { headers });
   }
 
   markAsReviewed(applicationrequestId: number): Observable<any>  {
@@ -206,6 +237,12 @@ getApplicationRequestById(id: number | string): Observable<ApiResponseObject<any
 approveApplication(applicationRequestId: number): Observable<any> {
   debugger
   return this.request('POST', 'Application/ApproveApplication', applicationRequestId);
+}
+
+markAsLiveOrDeployed(id: number, requestType: string): Observable<any> {
+  debugger;
+  console.log('📍 Marking application as Live/Deployed:', { id, requestType });
+  return this.request('POST', `Application/MakeApplicationLiveOrDeployed?id=${id}&type=${requestType}`, null);
 }
 
 
@@ -219,7 +256,45 @@ approveApplication(applicationRequestId: number): Observable<any> {
 
  uploadDocuments(formData: FormData){
     debugger;
-    return this.httpClient.post(`${environment.apiUrl}/Documents/UploadDocument`, formData);
+    const userEmail = localStorage.getItem('EM') || '';
+    const userName = localStorage.getItem('FULLNAME') || '';
+    const userId = localStorage.getItem('ID') || '';
+    const accessToken = localStorage.getItem('AT') || '';
+    
+    console.log('📤 APPLICATION SERVICE - uploadDocuments');
+    console.log('  🌐 URL:', `${environment.apiUrl}/Documents/UploadDocument`);
+    console.log('  👤 User Email from localStorage:', userEmail);
+    console.log('  👤 User Name from localStorage:', userName);
+    console.log('  👤 User ID from localStorage:', userId);
+    console.log('  🔐 Token exists:', !!accessToken);
+    console.log('  📦 FormData entries:');
+    
+    // Log FormData contents
+    const formDataEntries: any[] = [];
+    (formData as any).forEach((value: any, key: string) => {
+      if (value instanceof File) {
+        formDataEntries.push({ key, value: `File: ${value.name} (${value.size} bytes)` });
+      } else {
+        formDataEntries.push({ key, value });
+      }
+    });
+    console.table(formDataEntries);
+    
+    // Create headers WITHOUT Content-Type (browser sets it automatically for FormData)
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${accessToken}`,
+      'X-User-Email': userEmail,
+      'X-User-Name': userName,
+      'X-User-Id': userId
+    });
+    
+    console.log('  📤 Explicit Headers being sent:');
+    console.log('    - Authorization:', headers.get('Authorization')?.substring(0, 20) + '...');
+    console.log('    - X-User-Email:', headers.get('X-User-Email'));
+    console.log('    - X-User-Name:', headers.get('X-User-Name'));
+    console.log('    - X-User-Id:', headers.get('X-User-Id'));
+    
+    return this.httpClient.post(`${environment.apiUrl}/Documents/UploadDocument`, formData, { headers });
   }
 
 
@@ -235,9 +310,9 @@ debugger
 }
 
 assignTechnicalOwner(payload: any): Observable<any> {
-  debugger
-    return this.request('POST', 'Application/AssignTechnicalOwner', payload);
-
+  debugger;
+  console.log('assignTechnicalOwner service called with payload:', payload);
+  return this.request('POST', 'Application/AssignTechnicalOwner', payload);
 }
 
 getTeamMembers(): Observable<ApiResponseObject<devs[]>> {
@@ -361,14 +436,34 @@ getTeamMembers(): Observable<ApiResponseObject<devs[]>> {
   }
 
   getAnalytics(): Observable<Analytics> {
-    return this.applications$.pipe(
-      map(apps => ({
-        pendingApplicationReview : apps.filter(app => app.status === 'live').length,
-        totalLiveApplications: apps.filter(app => app.status === 'live').length,
-        applicationsInProgress: apps.filter(app => app.status === 'in-progress').length,
-        applicationsLive: apps.filter(app => app.status === 'live').length,
-        applicationsPendingApproval: apps.filter(app => app.status === 'pending-approval').length
-      }))
+    return this.GetAllApplicationRequest().pipe(
+      map(response => {
+        const apps = response.responseData || [];
+        
+        // Count Live applications
+        const liveApps = apps.filter(app => 
+          app.status?.trim().toLowerCase() === 'live'
+        ).length;
+        
+        // Count In Progress (Implementation In Progress + Approved and Ready for Implementation)
+        const inProgressApps = apps.filter(app => {
+          const status = app.status?.trim() || '';
+          return status === 'Implementation In Progress' || 
+                 status === 'Approved and Ready for Implementation';
+        }).length;
+        
+        // Count Pending Application Team Review
+        const pendingApps = apps.filter(app => 
+          app.status?.trim() === 'Pending Application Team Review'
+        ).length;
+        
+        return {
+          totalLiveApplications: liveApps,
+          applicationsInProgress: inProgressApps,
+          applicationsLive: liveApps,
+          applicationsPendingApproval: pendingApps
+        };
+      })
     );
   }
 
@@ -398,5 +493,9 @@ getTeamMembers(): Observable<ApiResponseObject<devs[]>> {
 
   getChangeRequests(): Observable<ChangeRequest[]> {
     return this.changeRequests$;
+  }
+
+  GetApplications(): Observable<ApiResponseObject<any[]>> {
+    return this.request<any[]>('GET', 'Application/Applications');
   }
 }

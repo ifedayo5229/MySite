@@ -42,10 +42,22 @@ export class AssignTechnicalownerdialogComponent implements OnInit {
   }
 
   submit(): void {
-    this.dialogRef.close({
-      ...this.data.assignment,
-      applicationId: this.data.appId
-    });
+    // Format dates to ISO string if they are Date objects
+    const payload = {
+      applicationId: this.data.appId,
+      ownerEmail: this.data.assignment.ownerEmail,
+      comment: this.data.assignment.comment,
+      startDate: this.data.assignment.startDate instanceof Date 
+        ? this.data.assignment.startDate.toISOString() 
+        : this.data.assignment.startDate,
+      endDate: this.data.assignment.endDate instanceof Date 
+        ? this.data.assignment.endDate.toISOString() 
+        : this.data.assignment.endDate,
+      priority: this.data.assignment.priority
+    };
+    
+    console.log('Submitting payload:', payload);
+    this.dialogRef.close(payload);
   }
 
   cancel(): void {

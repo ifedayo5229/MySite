@@ -3,28 +3,48 @@ html, body {
   padding: 0;
   box-sizing: border-box;
   height: 100%;
-  overflow-x: hidden; 
+  overflow: hidden; 
 }
 
 .container {
   display: flex;
   flex-direction: row;
-  height: calc(100vh); 
+  height: 100vh; 
+  overflow: hidden;
 }
 
 .sidebar {
   min-width: 20%;
   background-color: #f4f4f4; 
+  overflow-y: auto;
+  height: calc(100vh - 60px);
+  margin-top: 60px;
 }
 
 .content {
-  min-height: 80vh; 
-  max-width: 80%;
-  margin: 3rem 0 0 0;
-  padding: 1.5rem;
-  flex-grow: 1;
-  // background-color: #ffffff; 
-  overflow-y: auto; 
+  flex: 1;
+  margin-top: 60px;
+  padding: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: calc(100vh - 60px);
+  
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
 }
 
 /* Header styles */

@@ -52,7 +52,7 @@ html, body {
 
 /* Global color variables */
 :root {
-  --primary-color: rgb(1, 146, 90);
+  --primary-color: #1976d2;
   --secondary-color: #FFC107;
   --text-color: rgba(0, 0, 0, 0.8);
   --background-color: rgba(163, 233, 206, 0.1);
@@ -72,12 +72,12 @@ button {
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --primary-color: #009639;
-  --primary-dark: #007a2e;
-  --primary-light: #00b844;
+  --primary-color: #1976d2;
+  --primary-dark: #1565c0;
+  --primary-light: #42a5f5;
   --secondary-color: #f8f9fa;
-  --accent-color: #ff6b35;
-  --success-color: #28a745;
+  --accent-color: #64b5f6;
+  --success-color: #1976d2;
   --warning-color: #ffc107;
   --error-color: #dc3545;
   --text-primary: #212529;
@@ -152,7 +152,6 @@ body {
 
 .card-header {
   padding: 20px;
-  border-bottom: 1px solid var(--border-color);
   font-weight: 600;
   font-size: 16px;
 }
@@ -184,7 +183,7 @@ body {
 .form-control:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(0, 150, 57, 0.1);
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
 }
 
 .badge {
@@ -296,7 +295,6 @@ body {
 .table td {
   padding: 12px;
   text-align: left;
-  border-bottom: 1px solid var(--border-color);
 }
 
 .table th {
@@ -305,5 +303,127 @@ body {
 }
 
 .table tbody tr:hover {
-  background-color: rgba(0, 150, 57, 0.05);
+  background-color: rgba(25, 118, 210, 0.05);
+}
+
+/* Remove all Material Table borders globally - COMPREHENSIVE */
+.mat-table,
+.mat-mdc-table,
+table[mat-table] {
+  .mat-row,
+  .mat-header-row,
+  .mat-mdc-row,
+  .mat-mdc-header-row,
+  .mdc-data-table__row,
+  tr {
+    border-bottom: none !important;
+    border-bottom-width: 0 !important;
+    border-bottom-color: transparent !important;
+    border: none !important;
+  }
+
+  .mat-cell,
+  .mat-header-cell,
+  .mat-mdc-cell,
+  .mat-mdc-header-cell,
+  .mdc-data-table__cell,
+  td,
+  th {
+    border-bottom: none !important;
+    border-bottom-width: 0 !important;
+    border-bottom-color: transparent !important;
+    border: none !important;
+  }
+}
+
+/* Remove borders from Material rows and cells */
+.mat-row,
+.mat-mdc-row {
+  border-bottom-color: transparent !important;
+  border-bottom-width: 0 !important;
+  border: none !important;
+}
+
+.mat-cell,
+.mat-mdc-cell {
+  border-bottom-color: transparent !important;
+  border-bottom-width: 0 !important;
+  border: none !important;
+}
+
+.mat-header-cell,
+.mat-mdc-header-cell {
+  border-bottom: none !important;
+  border: none !important;
+}
+
+/* Override any default Material table styling */
+::ng-deep {
+  .mat-table,
+  .mat-mdc-table,
+  table[mat-table] {
+    border-collapse: separate !important;
+    
+    .mat-row,
+    .mat-header-row,
+    .mat-mdc-row,
+    .mat-mdc-header-row,
+    tr {
+      border-bottom: none !important;
+      border-bottom-width: 0 !important;
+      border: none !important;
+    }
+
+    .mat-cell,
+    .mat-header-cell,
+    .mat-mdc-cell,
+    .mat-mdc-header-cell,
+    td,
+    th {
+      border-bottom: none !important;
+      border-bottom-width: 0 !important;
+      border: none !important;
+    }
+  }
+
+  .mat-table tbody tr,
+  .mat-table thead tr,
+  .mat-mdc-table tbody tr,
+  .mat-mdc-table thead tr {
+    border-bottom: none !important;
+    border: none !important;
+  }
+
+  mat-row,
+  mat-header-row {
+    border-bottom: none !important;
+    border: none !important;
+  }
+
+  mat-cell,
+  mat-header-cell {
+    border-bottom: none !important;
+    border: none !important;
+  }
+}
+/* Override ngx-toastr success notification to use blue theme */
+.toast-success {
+  background-color: #1976d2 !important;
+}
+
+.toast-container .ngx-toastr {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+.toast-container .toast-success {
+  background-color: #1976d2 !important;
+  background-image: none !important;
+}
+
+.toast-container .toast-success .toast-message {
+  color: white !important;
+}
+
+.toast-container .toast-success:hover {
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3) !important;
 }

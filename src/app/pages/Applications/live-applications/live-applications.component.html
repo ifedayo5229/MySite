@@ -1,0 +1,173 @@
+<div class="live-applications-container">
+  <div class="header-section">
+    <div class="page-title">
+      <i class="material-icons">cloud_done</i>
+      <h1>Live Applications</h1>
+    </div>
+    <p class="subtitle">Manage applications currently running in production</p>
+  </div>
+
+  <!-- Filters Section -->
+  <div class="filters-section">
+    <div class="search-box">
+      <i class="material-icons">search</i>
+      <input 
+        type="text" 
+        placeholder="Search by application name, owner, or technical owner..." 
+        [(ngModel)]="searchQuery"
+      />
+    </div>
+
+    <div class="filter-controls">
+      <select [(ngModel)]="selectedDepartment" class="filter-select">
+        <option value="">All Departments</option>
+        <option *ngFor="let dept of departments" [value]="dept">{{ dept }}</option>
+      </select>
+
+      <button class="btn-clear" *ngIf="searchQuery || selectedDepartment" (click)="clearFilters()">
+        <i class="material-icons">clear</i>
+        Clear Filters
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading live applications...</p>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && getFilteredApplications().length === 0" class="empty-state">
+    <i class="material-icons">cloud_off</i>
+    <h3>No live applications found</h3>
+    <p *ngIf="searchQuery || selectedDepartment">Try adjusting your filters</p>
+    <p *ngIf="!searchQuery && !selectedDepartment">There are no live applications at the moment</p>
+  </div>
+
+  <!-- Applications Table -->
+  <div *ngIf="!loading && getFilteredApplications().length > 0" class="table-container">
+    <table class="applications-table">
+      <thead>
+        <tr>
+          <th>Application Name</th>
+          <th>Owner</th>
+          <th>Technical Owner</th>
+          <th>Department</th>
+          <th>Date Went Live</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let app of getFilteredApplications()">
+          <!-- Main Application Row -->
+          <tr class="app-row">
+            <td class="app-name">
+              <i class="material-icons app-icon">apps</i>
+              <strong>{{ app.applicationName }}</strong>
+            </td>
+            <td>{{ app.applicationOwner }}</td>
+            <td>{{ app.technicalOwner }}</td>
+            <td>
+              <span class="department-badge">{{ app.department }}</span>
+            </td>
+            <td>{{ app.dateWentLive | date:'MMM d, yyyy' }}</td>
+            <td>
+              <span class="status-badge status-live">
+                <i class="material-icons">check_circle</i>
+                {{ app.status }}
+              </span>
+            </td>
+            <td class="actions-cell">
+              <button class="btn-action btn-users" (click)="toggleUsers(app)" title="View Users">
+                <i class="material-icons">{{ app.showUsers ? 'expand_less' : 'expand_more' }}</i>
+                Users
+              </button>
+              <button class="btn-action btn-change" (click)="raiseChangeRequest(app)" title="Raise Change Request">
+                <i class="material-icons">edit</i>
+                Change Request
+              </button>
+            </td>
+          </tr>
+
+          <!-- Users Expansion Row -->
+          <tr *ngIf="app.showUsers" class="users-expansion-row">
+            <td colspan="7">
+              <div class="users-container">
+                <div class="users-header">
+                  <h4>
+                    <i class="material-icons">people</i>
+                    Application Users
+                  </h4>
+                  <span class="users-count">{{ app.users?.length }} users</span>
+                </div>
+
+                <table class="users-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Role</th>
+                      <th>Last Login</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let user of app.users" [class.inactive-user]="!user.isActive">
+                      <td>
+                        <i class="material-icons user-icon">person</i>
+                        {{ user.name }}
+                      </td>
+                      <td>{{ user.email }}</td>
+                      <td>
+                        <span class="role-badge">{{ user.role }}</span>
+                      </td>
+                      <td>{{ user.lastLogin | date:'MMM d, yyyy h:mm a' }}</td>
+                      <td>
+                        <span class="user-status-badge" [class.active]="user.isActive" [class.inactive]="!user.isActive">
+                          <i class="material-icons">{{ user.isActive ? 'check_circle' : 'cancel' }}</i>
+                          {{ user.isActive ? 'Active' : 'Inactive' }}
+                        </span>
+                      </td>
+                      <td>
+                        <button 
+                          class="btn-toggle-status" 
+                          [class.deactivate]="user.isActive"
+                          [class.activate]="!user.isActive"
+                          (click)="toggleUserStatus(app, user)"
+                        >
+                          <i class="material-icons">{{ user.isActive ? 'block' : 'check_circle' }}</i>
+                          {{ user.isActive ? 'Deactivate' : 'Activate' }}
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Summary Section -->
+  <div *ngIf="!loading && getFilteredApplications().length > 0" class="summary-section">
+    <div class="summary-card">
+      <i class="material-icons">apps</i>
+      <div class="summary-content">
+        <span class="summary-number">{{ getFilteredApplications().length }}</span>
+        <span class="summary-label">Live Applications</span>
+      </div>
+    </div>
+    <div class="summary-card">
+      <i class="material-icons">business</i>
+      <div class="summary-content">
+        <span class="summary-number">{{ departments.length }}</span>
+        <span class="summary-label">Departments</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,31 +1,40 @@
 <div class="sidebar" *ngIf="isSidebarVisible$ | async" [class.active]="isOpen">
-  <ul class="menu">
-    <li *ngFor="let item of filteredSingleMenu">
-      <a [routerLink]="item.route" class="menu-item" [class.active]="isActive(item)">
-        <img [src]="item.image" alt="{{ item.label }}" class="menu-icon" />
-        {{ item.label }}
-      </a>
-    </li>
-  </ul>
-  <ul class="menu">
-    <li *ngFor="let item of filteredMenuItems">
-      <div class="menu-item" 
-           [class.active]="isActive(item)"
-           (click)="toggleSubMenu(item)">
-        <img [src]="item.image" alt="{{ item.label }}" class="menu-icon" />
-        {{ item.label }}
-        <span *ngIf="item.subMenu" class="submenu-indicator">
-          {{ item.isSubMenuOpen ? '-' : '+' }}
-        </span>
-      </div>
-      <ul *ngIf="item.subMenu && item.isSubMenuOpen" class="submenu">
-        <li *ngFor="let subItem of item.subMenu" 
-            [class.active]="isActive(subItem)"
-            (click)="onSubMenuItemClick(subItem)">
-          <img [src]="subItem.image" alt="{{ subItem.label }}" class="menu-icon" />
-          {{ subItem.label }}
-        </li>
-      </ul>
-    </li>
-  </ul>
+  <div class="sidebar-header">
+    <h3 class="sidebar-title">Menu</h3>
+  </div>
+  
+  <div class="menu-container">
+    <ul class="menu">
+      <li *ngFor="let item of filteredSingleMenu" class="menu-list-item">
+        <a [routerLink]="item.route" class="menu-item" [class.active]="isActive(item)">
+          <mat-icon class="menu-icon">{{ item.icon || 'dashboard' }}</mat-icon>
+          <span class="menu-label">{{ item.label }}</span>
+        </a>
+      </li>
+    </ul>
+    
+    <ul class="menu">
+      <li *ngFor="let item of filteredMenuItems" class="menu-list-item">
+        <div class="menu-item" 
+             [class.active]="isActive(item)"
+             [class.has-submenu]="item.subMenu"
+             (click)="toggleSubMenu(item)">
+          <mat-icon class="menu-icon">{{ item.icon || 'folder' }}</mat-icon>
+          <span class="menu-label">{{ item.label }}</span>
+          <mat-icon *ngIf="item.subMenu" class="expand-icon">
+            {{ item.isSubMenuOpen ? 'expand_less' : 'expand_more' }}
+          </mat-icon>
+        </div>
+        <ul *ngIf="item.subMenu && item.isSubMenuOpen" class="submenu">
+          <li *ngFor="let subItem of item.subMenu" 
+              class="submenu-item"
+              [class.active]="isActive(subItem)"
+              (click)="onSubMenuItemClick(subItem)">
+            <mat-icon class="submenu-icon">{{ subItem.icon || 'subdirectory_arrow_right' }}</mat-icon>
+            <span class="submenu-label">{{ subItem.label }}</span>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
 </div>

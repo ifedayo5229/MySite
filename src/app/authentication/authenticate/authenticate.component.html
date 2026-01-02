@@ -1,44 +1,132 @@
-<div class="login-wrapper">
-  <div class="login-left">
-    <div class="logo-container">
-      <img class="logo" src="../../../assets/images/auth/lafarge_logo.png" alt="Lafarge Logo" />
-    </div>
-    <div class="angular-template-info">
-      <h1 class="title">Streamlining Your Application Management Processes</h1>
-      <p class="subtitle">Improve collaboration, automate tasks, and ensure smooth application operations.</p>
-    </div>
-  </div>
-
-  <div class="login-right">
-   
-    <h1 class="title" *ngIf="loginPage">Request Code</h1>
-    <h1 class="title" *ngIf="!loginPage">Verify Code</h1>
-
-    <form [formGroup]="codeRequestForm" *ngIf="!isLoggedIn && loginPage" class="login-form">
-      <mat-form-field appearance="outline" class="input-box">
-        <mat-label>Email</mat-label>
-        <input matInput formControlName="email" name="email" required />
-        <mat-error *ngIf="codeRequestForm?.get('email')?.hasError('required')">Email is required.</mat-error>
-      </mat-form-field>
-      <div class="action-button">
-        <button mat-raised-button type="submit" class="login-button"
-          [disabled]="!codeRequestForm.valid || isSubmitting" (click)="getCode()">
-          Get Code
-        </button>
+<div class="auth-container">
+  <div class="auth-wrapper">
+    <!-- Left Panel -->
+    <div class="left-panel">
+      <div class="left-content">
+        <div class="logo-section">
+          <img src="../../../assets/images/auth/lafarge_logo.png" alt="Lafarge Logo" class="brand-logo" />
+        </div>
+        
+        <h1 class="welcome-title">IT Application Request Portal</h1>
+        <p class="welcome-text">
+          Empowering Lafarge's digital transformation through streamlined IT service management. 
+          Submit requests, track approvals, and manage your applications efficiently.
+        </p>
+        
+        <div class="feature-highlights">
+          <div class="highlight-item">
+            <mat-icon>verified</mat-icon>
+            <span>Instant Requests</span>
+          </div>
+          <div class="highlight-item">
+            <mat-icon>track_changes</mat-icon>
+            <span>Real-Time Tracking</span>
+          </div>
+          <div class="highlight-item">
+            <mat-icon>cloud_done</mat-icon>
+            <span>Smart Approvals</span>
+          </div>
+        </div>
       </div>
-    </form>
+      
+      <!-- Decorative Circle -->
+      <div class="decorative-circle"></div>
+    </div>
 
-    <form [formGroup]="ngResetForm" *ngIf="!isLoggedIn && !loginPage" class="login-form">
-      <mat-form-field appearance="outline" class="input-box">
-        <mat-label>Verification Code</mat-label>
-        <input matInput type="text" formControlName="Code" placeholder="Enter a valid code" />
-        <mat-error *ngIf="ngResetForm.get('Code')?.hasError('required')">Code is required!</mat-error>
-      </mat-form-field>
-      <div class="action-button">
-        <button mat-raised-button color="primary" (click)="verifyCode()" [disabled]="!ngResetForm.valid || isSubmitting">Verify Code</button>
-        <button mat-raised-button class="back-button" (click)="toggleFormBack()" [disabled]="isSubmitting">Back</button>
+    <!-- Right Panel -->
+    <div class="right-panel">
+      <div class="form-wrapper">
+        <div class="form-header">
+          <h2 class="signin-title" *ngIf="loginPage">Sign In</h2>
+          <h2 class="signin-title" *ngIf="!loginPage">Verify Code</h2>
+          <div class="title-underline"></div>
+        </div>
+
+        <!-- Request Code Form -->
+        <form [formGroup]="codeRequestForm" *ngIf="!isLoggedIn && loginPage" class="auth-form">
+          <div class="input-group">
+            <input 
+              matInput 
+              formControlName="email" 
+              type="email" 
+              placeholder="Enter your email address" 
+              class="form-input"
+              required 
+            />
+            <mat-error *ngIf="codeRequestForm?.get('email')?.hasError('required') && codeRequestForm?.get('email')?.touched">
+              Email is required
+            </mat-error>
+            <mat-error *ngIf="codeRequestForm?.get('email')?.hasError('email') && codeRequestForm?.get('email')?.touched">
+              Please enter a valid email
+            </mat-error>
+          </div>
+          
+          <button 
+            type="submit" 
+            class="submit-btn"
+            [disabled]="!codeRequestForm.valid || isSubmitting" 
+            (click)="getCode()">
+            <span *ngIf="!isSubmitting">SEND CODE</span>
+            <mat-spinner *ngIf="isSubmitting" diameter="24"></mat-spinner>
+          </button>
+          
+          <p class="help-note">
+            <mat-icon>info</mat-icon>
+            Use your Lafarge corporate email address
+          </p>
+        </form>
+
+        <!-- Verify Code Form -->
+        <form [formGroup]="ngResetForm" *ngIf="!isLoggedIn && !loginPage" class="auth-form">
+          <div class="input-group">
+            <input 
+              matInput 
+              type="text" 
+              formControlName="Code" 
+              placeholder="Enter verification code" 
+              maxlength="6" 
+              class="form-input code-input"
+            />
+            <mat-error *ngIf="ngResetForm.get('Code')?.hasError('required') && ngResetForm.get('Code')?.touched">
+              Code is required
+            </mat-error>
+          </div>
+          
+          <button 
+            type="submit" 
+            class="submit-btn" 
+            (click)="verifyCode()" 
+            [disabled]="!ngResetForm.valid || isSubmitting">
+            <span *ngIf="!isSubmitting">VERIFY</span>
+            <mat-spinner *ngIf="isSubmitting" diameter="24"></mat-spinner>
+          </button>
+          
+          <button 
+            type="button" 
+            class="back-btn" 
+            (click)="toggleFormBack()" 
+            [disabled]="isSubmitting">
+            <mat-icon>arrow_back</mat-icon>
+            Back to Email
+          </button>
+          
+          <p class="help-note">
+            <mat-icon>timer</mat-icon>
+            Code expires in 10 minutes
+          </p>
+        </form>
+
+        <div class="support-links">
+          <a href="#" class="support-link">
+            <mat-icon>help_outline</mat-icon>
+            Need Help?
+          </a>
+          <a href="#" class="support-link">
+            <mat-icon>contact_support</mat-icon>
+            IT Support
+          </a>
+        </div>
       </div>
-    </form>
-
+    </div>
   </div>
 </div>

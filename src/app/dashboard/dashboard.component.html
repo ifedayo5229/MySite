@@ -46,8 +46,27 @@
       </div>
     </div>
 
-    <div class="chart-container">
-      <canvas #chartCanvas></canvas>
+    <!-- Modern Charts Section -->
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3><i class="material-icons">show_chart</i> Status Trends</h3>
+          <p>Application status distribution over time</p>
+        </div>
+        <div class="chart-body">
+          <canvas id="statusLineChart"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3><i class="material-icons">pie_chart</i> Application Types</h3>
+          <p>Distribution by category</p>
+        </div>
+        <div class="chart-body">
+          <canvas id="typePieChart"></canvas>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -119,18 +138,24 @@
               </div>
               
               <div class="card-actions">
-  <!-- main blue button stays a button -->
- <button 
-  class="btn-primary btn-sm" 
-  (click)="goToDetails(app.id)">
-  View Details
-</button>
+  <span class="action-link" (click)="goToDetails(app.id)">
+    <i class="material-icons">visibility</i>
+    View Details
+  </span>
 
+  <span class="action-link" (click)="openAssignDialog(+app.id)">
+    <i class="material-icons">person_add</i>
+    Assign Technical Owner
+  </span>
 
-<span class="action-link" (click)="openAssignDialog(+app.id)">
-  Assign Technical Owner
-</span>
-
+  <span 
+    *ngIf="app.status === 'Implementation In Progress' || app.status === 'Approved and Ready for Implementation'"
+    class="action-link live-deploy-link"
+    (click)="markAsLiveOrDeployed(+app.id, app.requestType)"
+    title="Mark as Live/Deployed">
+    <i class="material-icons">rocket_launch</i>
+    Go Live/Deploy
+  </span>
 </div>
 
 

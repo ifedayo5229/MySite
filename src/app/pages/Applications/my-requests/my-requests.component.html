@@ -18,36 +18,58 @@
 
   <!-- Requests grid -->
   <div class="grid" *ngIf="requests.length > 0">
-    <article class="card" *ngFor="let r of requests">
+    <article 
+      class="card" 
+      *ngFor="let r of requests" 
+      [id]="'app-' + r.id"
+      [class.highlighted]="r.id?.toString() === highlightedId">
 
-      <!-- Ribbon -->
-      <span class="ribbon" [ngClass]="badge(r.status)">{{ r.status }}</span>
+      <!-- Status Badge -->
+      <div class="status-badge" [ngClass]="badge(r.status)">
+        <span>{{ r.status }}</span>
+      </div>
 
       <!-- Header -->
       <header>
-        <h3>{{ r.applicationName }}</h3>
-        <p class="subtitle">{{ r.applicationType }}</p>
+        <h3 [title]="r.applicationName">{{ r.applicationName }}</h3>
+        <p class="subtitle">
+          <i class="material-icons">apps</i>
+          {{ r.applicationType }}
+        </p>
       </header>
 
       <!-- Meta -->
-      <dl class="meta">
-        <div><dt>Location:</dt><dd>{{ r.locationName }}</dd></div>
-        <div><dt>Department:</dt><dd>{{ r.functionName }}</dd></div>
-        <div><dt>Request Date:</dt><dd>{{ r.requestDate | date:'mediumDate' }}</dd></div>
-      </dl>
+      <div class="meta">
+        <div class="meta-item">
+          <i class="material-icons">location_on</i>
+          <span>{{ r.locationName }}</span>
+        </div>
+        <div class="meta-item">
+          <i class="material-icons">business</i>
+          <span>{{ r.functionName }}</span>
+        </div>
+        <div class="meta-item">
+          <i class="material-icons">calendar_today</i>
+          <span>{{ r.requestDate | date:'mediumDate' }}</span>
+        </div>
+      </div>
 
       <!-- Explanation collapsible -->
-      <details>
-        <summary>See explanation</summary>
+      <details class="explanation">
+        <summary>
+          <i class="material-icons">expand_more</i>
+          See explanation
+        </summary>
         <p>{{ r.explanation }}</p>
       </details>
 
       <!-- Actions -->
-     <div class="actions">
-        <span class="action-link" (click)="viewDetails(r.id)">View Details</span>|
-        
-        <span (click)="downloadFiles(r)">Download Files</span>
-</div>
+      <div class="actions">
+        <span class="action-link" (click)="viewDetails(r.id)">
+          <i class="material-icons">visibility</i>
+          View Details
+        </span>
+      </div>
     </article>
   </div>
 

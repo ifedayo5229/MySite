@@ -76,10 +76,18 @@ export class DashboardComponent implements OnInit {
 
   /* ---------- filtering ---------- */
   applyFilter(): void {
-    this.filteredApplications =
-      this.selectedFilter === 'all'
-        ? this.applications
-        : this.applications.filter(a => a.status === this.selectedFilter);
+    if (this.selectedFilter === 'all') {
+      this.filteredApplications = this.applications;
+    } else if (this.selectedFilter === 'pending-approval') {
+      this.filteredApplications = this.applications.filter(a => 
+        a.status === 'Pending Application Team Review'
+      );
+    } else if (this.selectedFilter === 'in-progress') {
+      this.filteredApplications = this.applications.filter(a => 
+        a.status === 'Implementation In Progress' || 
+        a.status === 'Approved and Ready for Implementation'
+      );
+    }
   }
 
   filterApplications(filter: string): void {
@@ -90,36 +98,168 @@ export class DashboardComponent implements OnInit {
 
   /* ---------- chart ---------- */
   private createChart(): void {
-    if (!this.analytics) return;
+    this.createStatusLineChart();
+    this.createTypePieChart();
+  }
 
-    const ctx = (document.getElementById('chartCanvas') as HTMLCanvasElement)?.getContext('2d');
+  private createStatusLineChart(): void {
+    const ctx = (document.getElementById('statusLineChart') as HTMLCanvasElement)?.getContext('2d');
     if (!ctx) return;
 
-    // destroy old instance
-    this.chart?.destroy();
+    // Destroy existing chart
+    if (this['statusLineChartInstance']) {
+      this['statusLineChartInstance'].destroy();
+    }
 
-    this.chart = new Chart(ctx, {
-      type: 'bar',
+    // Sample data - in real app, this would come from API with historical data
+    const statusData = {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+      datasets: [
+        {
+          label: 'Pending',
+          data: [5, 6, 7, 8, 7, this.analytics?.applicationsPendingApproval || 0],
+          borderColor: '#ffa000',
+          backgroundColor: 'rgba(255, 160, 0, 0.1)',
+          tension: 0.4,
+          fill: true
+        },
+        {
+          label: 'In Progress',
+          data: [2, 3, 2, 3, 2, this.analytics?.applicationsInProgress || 0],
+          borderColor: '#1976d2',
+          backgroundColor: 'rgba(25, 118, 210, 0.1)',
+          tension: 0.4,
+          fill: true
+        },
+        {
+          label: 'Live',
+          data: [0, 1, 1, 1, 1, this.analytics?.totalLiveApplications || 0],
+          borderColor: '#2e7d32',
+          backgroundColor: 'rgba(46, 125, 50, 0.1)',
+          tension: 0.4,
+          fill: true
+        }
+      ]
+    };
+
+    this['statusLineChartInstance'] = new Chart(ctx, {
+      type: 'line',
+      data: statusData,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top',
+            labels: {
+              usePointStyle: true,
+              padding: 15,
+              font: { size: 12, weight: 'bold' }
+            }
+          },
+          tooltip: {
+            mode: 'index',
+            intersect: false,
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            padding: 12,
+            titleFont: { size: 13, weight: 'bold' },
+            bodyFont: { size: 12 }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: { stepSize: 1, font: { size: 11 } },
+            grid: { color: 'rgba(0, 0, 0, 0.05)' }
+          },
+          x: {
+            ticks: { font: { size: 11 } },
+            grid: { display: false }
+          }
+        }
+      }
+    });
+  }
+
+  private createTypePieChart(): void {
+    const ctx = (document.getElementById('typePieChart') as HTMLCanvasElement)?.getContext('2d');
+    if (!ctx) return;
+
+    // Destroy existing chart
+    if (this['typePieChartInstance']) {
+      this['typePieChartInstance'].destroy();
+    }
+
+    // Count applications by type
+    const typeCounts: { [key: string]: number } = {};
+    this.applications.forEach(app => {
+      const type = app.applicationType || 'Other';
+      typeCounts[type] = (typeCounts[type] || 0) + 1;
+    });
+
+    const labels = Object.keys(typeCounts);
+    const data = Object.values(typeCounts);
+    const colors = [
+      '#1976d2', '#2e7d32', '#ffa000', '#d32f2f', '#7b1fa2',
+      '#0288d1', '#388e3c', '#f57c00', '#c2185b', '#5e35b1'
+    ];
+
+    this['typePieChartInstance'] = new Chart(ctx, {
+      type: 'doughnut',
       data: {
-        labels: ['In Progress', 'Live', 'Pending Approval'],
+        labels: labels,
         datasets: [{
-          label: 'Applications',
-          data: [
-            this.analytics.applicationsInProgress,
-            this.analytics.applicationsLive,
-            this.analytics.applicationsPendingApproval
-          ],
-          backgroundColor: ['#FFC107', '#28a745', '#009639'],
-          borderColor:    ['#FFC107', '#28a745', '#009639'],
+          data: data,
+          backgroundColor: colors.slice(0, labels.length),
           borderWidth: 2,
-          borderRadius: 6
+          borderColor: '#ffffff',
+          hoverOffset: 8
         }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
-        scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+        plugins: {
+          legend: {
+            display: true,
+            position: 'right',
+            labels: {
+              usePointStyle: true,
+              padding: 15,
+              font: { size: 12, weight: 'bold' },
+              generateLabels: (chart) => {
+                const data = chart.data;
+                if (data.labels && data.datasets.length) {
+                  return data.labels.map((label, i) => {
+                    const value = data.datasets[0].data[i];
+                    const bgColors = data.datasets[0].backgroundColor as string[];
+                    return {
+                      text: `${label}: ${value}`,
+                      fillStyle: bgColors[i] || '#1976d2',
+                      hidden: false,
+                      index: i
+                    };
+                  });
+                }
+                return [];
+              }
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            padding: 12,
+            titleFont: { size: 13, weight: 'bold' },
+            bodyFont: { size: 12 },
+            callbacks: {
+              label: (context) => {
+                const total = context.dataset.data.reduce((a: number, b: number) => a + b, 0);
+                const percentage = ((context.parsed / total) * 100).toFixed(1);
+                return `${context.label}: ${context.parsed} (${percentage}%)`;
+              }
+            }
+          }
+        }
       }
     });
   }
@@ -145,6 +285,20 @@ closeDetailsModal(): void {
 
 toggleComment(): void {
   this.showCommentBox = !this.showCommentBox;
+}
+
+markAsLiveOrDeployed(id: number, requestType: string): void {
+  console.log('📍 Marking as Live/Deployed - ID:', id, 'RequestType:', requestType);
+  
+  this.applicationService.markAsLiveOrDeployed(id, requestType).subscribe({
+    next: () => {
+      this.toastr.success('Application marked as live/deployed successfully.');
+      this.loadData(); // refresh dashboard data
+    },
+    error: () => {
+      this.toastr.error('Failed to mark application as live/deployed.');
+    }
+  });
 }
 
 
@@ -174,23 +328,30 @@ submitComment(): void {
 
 
  getStatusClass(status: string): string {
-    switch (status) {
-      case 'submitted': return 'primary';
-      case 'in-progress': return 'warning';
-      case 'pending-approval': return 'secondary';
-      case 'approved': return 'success';
-      case 'rejected': return 'danger';
-      case 'live': return 'success';
-      default: return 'secondary';
-    }
+    if (!status) return 'secondary';
+    
+    const statusLower = status.toLowerCase();
+    
+    if (statusLower === 'live') return 'success';
+    if (statusLower.includes('pending')) return 'warning';
+    if (statusLower.includes('implementation in progress')) return 'info';
+    if (statusLower.includes('approved and ready')) return 'success';
+    if (statusLower.includes('rejected')) return 'danger';
+    
+    return 'secondary';
   }
 
     getPendingApprovalCount(): number {
-    return this.filteredApplications.filter(app => app.status === 'pending-approval').length;
+    return this.applications.filter(app => 
+      app.status === 'Pending Application Team Review'
+    ).length;
   }
 
   getInProgressCount(): number {
-    return this.filteredApplications.filter(app => app.status === 'in-progress').length;
+    return this.applications.filter(app => 
+      app.status === 'Implementation In Progress' || 
+      app.status === 'Approved and Ready for Implementation'
+    ).length;
   }
   getFilteredApplications(): GetApplicationRequest[] {
     return this.filteredApplications;
@@ -213,16 +374,21 @@ openAssignDialog(appId: number): void {
   });
 
   dialogRef.afterClosed().subscribe(result => {
-    debugger
+    console.log('Dialog closed with result:', result);
 
     if (result) {
+      console.log('Calling assignTechnicalOwner with payload:', result);
       this.applicationService.assignTechnicalOwner(result).subscribe({
         
-        next: () => {
+        next: (response) => {
+          console.log('Assignment successful:', response);
           this.toastr.success('Technical owner assigned.');
           this.loadData(); // refresh list
         },
-        error: () => this.toastr.error('Assignment failed.')
+        error: (error) => {
+          console.error('Assignment failed:', error);
+          this.toastr.error('Assignment failed.');
+        }
       });
     }
   });

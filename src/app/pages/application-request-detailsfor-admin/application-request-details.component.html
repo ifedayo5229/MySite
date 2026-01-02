@@ -1,122 +1,191 @@
 <div class="details-page">
-  <div class="header">
-    <h2>{{ selectedApplication?.applicationName }}</h2>
-    <button class="back-btn" routerLink="/home/dashboard">← Back to Dashboard</button>
-  </div>
-
-  <div class="details-card">
-  <div class="detail-item"><strong>Application Name:</strong> {{ selectedApplication?.applicationName }}</div>
-  <div class="detail-item"><strong>Application Type:</strong> {{ selectedApplication?.applicationType }}</div>
-  <div class="detail-item"><strong>Justification:</strong> {{ selectedApplication?.justification }}</div>
-  <div class="detail-item"><strong>Explanation:</strong> {{ selectedApplication?.explanation }}</div>
-  <div class="detail-item"><strong>Department:</strong> {{ selectedApplication?.functionName || selectedApplication?.department }}</div>
-  <div class="detail-item"><strong>Location:</strong> {{ selectedApplication?.locationName }}</div>
-<div class="detail-item status-row">
-  <strong>Status:</strong> {{ selectedApplication?.status }}
-
-  <!-- Show button only if not already reviewed -->
-  <button
-    *ngIf="selectedApplication?.status == 'Pending Application Team Review'"
-    class="review-icon-btn"
-    (click)="markAsReviewed()"
-    title="Mark as reviewed"
-  >
-    <i class="material-icons">task_alt</i>
-  </button>
-</div>
-
-  <div class="detail-item"><strong>Requester:</strong> {{ selectedApplication?.requester }}</div>
-  <div class="detail-item"><strong>Request Date:</strong> {{ selectedApplication?.requestDate | date:'short' }}</div>
-  <div class="detail-item"><strong>Created Date:</strong> {{ selectedApplication?.createdDate | date:'short' }}</div>
-</div>
-
-<!-- Attached Documents Section -->
-<div class="documents-section" *ngIf="selectedApplication?.documents">
-  <h3 class="section-title" (click)="showDocuments = !showDocuments">
-    <i class="material-icons">folder</i>
-    Attached Documents
-    <span class="toggle-text">{{ showDocuments ? 'Hide' : 'View' }}</span>
-  </h3>
-
-  <!-- Upload Button -->
-  <div *ngIf="showDocuments" class="upload-container">
-  <label for="fileUpload" class="upload-label">
-    <i class="material-icons">cloud_upload</i> Upload New Documents:
-  </label>
-
-  <input
-    type="file"
-    multiple
-    (change)="onFileSelected($event)"
-    class="file-input"
-    id="fileUpload"
-  />
-
-  <button 
-    class="upload-button" 
-    (click)="uploadFiles()" 
-    [disabled]="!selectedFiles.length">
-    Upload Files
-  </button>
-</div>
-
-
-  <ul class="documents-list" *ngIf="showDocuments">
-    <li *ngFor="let doc of selectedApplication.documents" class="document-item">
-      <a [href]="getDocumentUrl(doc)" target="_blank" class="document-link">
-        <i class="material-icons">description</i>
-        {{ doc.fileName }}
-      </a>
-      <div class="doc-meta">
-        <small><strong>Uploaded by:</strong> {{ doc.createdBy }}</small><br />
-        <small><strong>On:</strong> {{ doc.createdDate | date: 'medium' }}</small>
+  <!-- Header Section -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-icon">
+        <mat-icon>description</mat-icon>
       </div>
-    </li>
-  </ul>
-</div>
-
-<!-- Handle empty -->
-<div *ngIf="selectedApplication?.documents?.length === 0" class="no-documents">
-  <i class="material-icons">info</i> No documents attached.
-</div>
-
-
-
-
- <!--  CHAT SECTION  -->
-<div class="chat-section">
-  <h3>Comments</h3>
-
-<div class="chat-box">
-  <ng-container *ngFor="let c of comments">
-    <div
-      class="chat-bubble"
-      [ngClass]="{
-        'own-message': c.createdBy?.toLowerCase() === email?.toLowerCase(),
-        'other-message': c.createdBy?.toLowerCase() !== email?.toLowerCase()
-      }"
-    >
-      <div class="bubble-header">
-        <strong>{{ getFirstName(c.createdBy) }}</strong>
-        <small>{{ c.createdDate | date: 'short' }}</small>
+      <div class="header-info">
+        <h1>{{ selectedApplication?.applicationName }}</h1>
+        <span class="status-badge" [ngClass]="getStatusClass(selectedApplication?.status)">
+          {{ selectedApplication?.status }}
+        </span>
       </div>
-      <div class="bubble-content">{{ c.comment }}</div>
     </div>
-  </ng-container>
-</div>
-
-
-  <!-- input -->
-  <div class="comment-input">
-    <textarea
-      [(ngModel)]="newComment"
-      placeholder="Write a comment..."
-      rows="2"
-    ></textarea>
-    <button (click)="submitComment()" [disabled]="!newComment.trim()">
-      Send
+    <button class="back-btn" routerLink="/home/dashboard">
+      <mat-icon>arrow_back</mat-icon>
+      Back to Dashboard
     </button>
   </div>
-</div>
+
+  <!-- Details Card -->
+  <div class="details-card">
+    <div class="card-title">
+      <mat-icon>info</mat-icon>
+      <h2>Application Details</h2>
+    </div>
+    
+    <div class="details-grid">
+      <div class="detail-item">
+        <div class="detail-label">Application Name</div>
+        <div class="detail-value">{{ selectedApplication?.applicationName }}</div>
+      </div>
+      
+      <div class="detail-item">
+        <div class="detail-label">Application Type</div>
+        <div class="detail-value">{{ selectedApplication?.applicationType }}</div>
+      </div>
+      
+      <div class="detail-item">
+        <div class="detail-label">Justification</div>
+        <div class="detail-value">{{ selectedApplication?.justification }}</div>
+      </div>
+      
+      <div class="detail-item">
+        <div class="detail-label">Explanation</div>
+        <div class="detail-value">{{ selectedApplication?.explanation }}</div>
+      </div>
+      
+      <div class="detail-item">
+        <div class="detail-label">Department</div>
+        <div class="detail-value">{{ selectedApplication?.functionName || selectedApplication?.department }}</div>
+      </div>
+      
+      <div class="detail-item">
+        <div class="detail-label">Location</div>
+        <div class="detail-value">{{ selectedApplication?.locationName }}</div>
+      </div>
+      
+      <div class="detail-item">
+        <div class="detail-label">Requester</div>
+        <div class="detail-value">{{ selectedApplication?.requester }}</div>
+      </div>
+      
+      <div class="detail-item">
+        <div class="detail-label">Request Date</div>
+        <div class="detail-value">{{ selectedApplication?.requestDate | date:'short' }}</div>
+      </div>
+      
+      <div class="detail-item">
+        <div class="detail-label">Created Date</div>
+        <div class="detail-value">{{ selectedApplication?.createdDate | date:'short' }}</div>
+      </div>
+    </div>
+    
+    <button 
+      *ngIf="selectedApplication?.status == 'Pending Application Team Review'"
+      class="review-btn"
+      (click)="markAsReviewed()"
+    >
+      <mat-icon>task_alt</mat-icon>
+      Mark as Reviewed
+    </button>
+  </div>
+
+<!-- Documents Card -->
+  <div class="documents-card" *ngIf="selectedApplication?.documents">
+    <div class="card-header" (click)="showDocuments = !showDocuments">
+      <div class="header-left">
+        <mat-icon>folder_open</mat-icon>
+        <h2>Attached Documents</h2>
+      </div>
+      <mat-icon class="toggle-icon" [class.rotated]="showDocuments">expand_more</mat-icon>
+    </div>
+    
+    <div class="documents-content" *ngIf="showDocuments">
+      <div class="upload-section">
+        <div class="file-input-wrapper">
+          <input
+            type="file"
+            multiple
+            (change)="onFileSelected($event)"
+            id="fileUpload"
+          />
+        </div>
+        <button 
+          class="upload-btn" 
+          (click)="uploadFiles()" 
+          [disabled]="!selectedFiles.length">
+          Upload Files
+        </button>
+      </div>
+      
+      <div class="documents-list" *ngIf="selectedApplication?.documents?.length > 0">
+        <div *ngFor="let doc of selectedApplication.documents" class="document-card">
+          <div class="document-info">
+            <mat-icon>insert_drive_file</mat-icon>
+            <div class="document-details">
+              <div class="document-name">{{ doc.fileName }}</div>
+              <div class="document-meta">
+                <span><mat-icon>person</mat-icon>{{ doc.createdBy }}</span>
+                <span><mat-icon>schedule</mat-icon>{{ doc.createdDate | date: 'short' }}</span>
+              </div>
+            </div>
+          </div>
+          <a [href]="getDocumentUrl(doc)" target="_blank" class="download-btn">
+            <mat-icon>download</mat-icon>
+            Download
+          </a>
+        </div>
+      </div>
+      
+      <div *ngIf="selectedApplication?.documents?.length === 0" class="no-documents">
+        <mat-icon>folder_off</mat-icon>
+        <p>No documents attached yet</p>
+      </div>
+    </div>
+  </div>
+
+
+
+
+<!-- Comments Card -->
+  <div class="comments-card">
+    <div class="card-header">
+      <mat-icon>comment</mat-icon>
+      <h2>Comments</h2>
+    </div>
+    
+    <div class="chat-container">
+      <div class="chat-messages">
+        <div *ngFor="let c of comments" 
+             class="message"
+             [ngClass]="{
+               'own-message': c.createdBy.toLowerCase() === email.toLowerCase(),
+               'other-message': c.createdBy.toLowerCase() !== email.toLowerCase()
+             }">
+          <div class="message-avatar">
+            <mat-icon>person</mat-icon>
+          </div>
+          <div class="message-content">
+            <div class="message-header">
+              <span class="message-author">{{ getFirstName(c.createdBy) }}</span>
+              <span class="message-date">{{ c.createdDate | date: 'short' }}</span>
+            </div>
+            <div class="message-bubble">
+              {{ c.comment }}
+            </div>
+          </div>
+        </div>
+        
+        <div *ngIf="comments?.length === 0" class="no-comments">
+          <mat-icon>chat_bubble_outline</mat-icon>
+          <p>No comments yet. Be the first to comment!</p>
+        </div>
+      </div>
+      
+      <div class="comment-input">
+        <textarea
+          [(ngModel)]="newComment"
+          placeholder="Write a comment..."
+          rows="2"
+        ></textarea>
+        <button class="send-btn" (click)="submitComment()" [disabled]="!newComment.trim()">
+          <mat-icon>send</mat-icon>
+          Send
+        </button>
+      </div>
+    </div>
+  </div>
 
 </div>

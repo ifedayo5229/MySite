@@ -10,6 +10,7 @@ import { LoginResponseData } from 'src/app/models/login-response-data';
 interface MenuItem {
   label: string;
   image: string;
+  icon?: string;
   route?: string; 
   subMenu?: MenuItem[]; 
   roles: string[];
@@ -19,6 +20,7 @@ interface MenuItem {
 interface SingleMenu {
   label: string;
   image: string;
+  icon?: string;
   route: string;  
   roles: string[];  
 }
@@ -85,6 +87,7 @@ export class SidebarComponent {
         userRoles.push('Requester');
       }
       this.userRoles = userRoles;
+      console.log('Current user roles:', this.userRoles);
       
     }
 
@@ -100,27 +103,31 @@ export class SidebarComponent {
     {
       label: 'Application',
       image: 'assets/images/icons/SVGs/set_route.svg',
+      icon: 'apps',
       roles: ['System Admin', 'Requester'],
       isSubMenuOpen: false, 
       subMenu: [
         {
           label: 'Create App Request',
           image: 'assets/images/icons/SVGs/request_for_items.svg',
+          icon: 'add_circle_outline',
           roles: ['System Admin', 'Requester'],
           route: '/home/create-application-request',
 
         },
         {
-          label: 'App Request(s)',
+          label: 'My Requests',
           image: 'assets/images/icons/SVGs/request_for_items.svg',
+          icon: 'list_alt',
           roles: ['System Admin', 'Requester'],
-          route: '/home/my-permits',
+          route: '/home/my-requests',
         },
         {
           label: 'All App Requests',
           image: 'assets/images/icons/SVGs/request_for_items.svg',
+          icon: 'assignment',
           roles: ['System Admin', 'Permit Issuer', 'Isolator'],
-          route: '/home/all-permits',
+          route: '/home/dashboard',
         },
       ],
     },
@@ -128,14 +135,16 @@ export class SidebarComponent {
     {
       label: 'Approval',
       image: 'assets/images/icons/SVGs/view_items.svg',
+      icon: 'verified',
       roles: ['System Admin', 'Permit Issuer', 'Isolator'],
       isSubMenuOpen: false, 
       subMenu: [
         {
-          label: 'Pending Request(s)',
+          label: 'Pending Requests',
           image: 'assets/images/icons/SVGs/request_for_items.svg',
+          icon: 'pending_actions',
           roles: ['System Admin', 'Permit Issuer', 'Isolator'],
-          route: '/home/pending-permits',
+          route: '/home/dashboard',
         },
       ],
     },
@@ -143,15 +152,23 @@ export class SidebarComponent {
     {
       label: 'IT Space',
       image: 'assets/images/icons/SVGs/view_report.svg',
+      icon: 'computer',
       roles: ['System Admin'],
       isSubMenuOpen: false, 
       subMenu: [
         {
-          label: 'All App Request(s)',
+          label: 'All App Requests',
           image: 'assets/images/icons/SVGs/request_for_items.svg',
+          icon: 'folder_open',
           roles: ['System Admin'],
-          route: '/home/pending-closure',
-
+          route: '/home/dashboard',
+        },
+        {
+          label: 'Live Applications',
+          image: 'assets/images/icons/SVGs/view_report.svg',
+          icon: 'cloud_done',
+          roles: ['System Admin'],
+          route: '/home/live-applications',
         },
        
       ],
@@ -160,6 +177,7 @@ export class SidebarComponent {
     {
       label: 'Audit Trail',
       image: 'assets/images/icons/SVGs/view_report.svg',
+      icon: 'history',
       roles: ['System Admin', 'Permit Issuer'],
       isSubMenuOpen: false,
       subMenu: []
@@ -168,13 +186,22 @@ export class SidebarComponent {
     {
       label: 'Roles and Permissions',
       image: 'assets/images/icons/SVGs/view_report.svg',
-      roles: ['System Admin'],
+      icon: 'admin_panel_settings',
+      roles: ['System Admin', 'Admin', 'SystemAdmin'],
       isSubMenuOpen: false,
       subMenu: [
         {
+          label: 'User Management',
+          image: 'assets/images/icons/SVGs/view_report.svg',
+          icon: 'manage_accounts',
+          roles: ['System Admin', 'Admin', 'SystemAdmin'],
+          route: '/home/user-management',
+        },
+        {
           label: 'View Users',
           image: 'assets/images/icons/SVGs/view_report.svg',
-          roles: ['System Admin'],
+          icon: 'people',
+          roles: ['System Admin', 'Admin', 'SystemAdmin'],
           route: '/home/view-users',
         }
       ]
@@ -186,8 +213,16 @@ export class SidebarComponent {
     {
       label: 'Dashboard',
       image: 'assets/images/icons/SVGs/dashboard.png',
+      icon: 'dashboard',
+      route: '/home/user-dashboard', 
+      roles: ['Requester']   
+    },
+    {
+      label: 'Dashboard',
+      image: 'assets/images/icons/SVGs/dashboard.png',
+      icon: 'dashboard',
       route: '/home/dashboard', 
-      roles: ['System Admin']   
+      roles: ['System Admin', 'Admin', 'SystemAdmin']   
     }   
   ];
 

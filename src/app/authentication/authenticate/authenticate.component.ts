@@ -130,7 +130,22 @@ export class AuthenticateComponent {
     var datas = loginResponse.permission;
 
       this.currentUser = this.tokenService.getInfo(); 
-      this.router.navigate(['/home/dashboard']).then(() => {window.location.reload()});
+      
+      // Check user roles and navigate accordingly
+      const roles = this.currentUser.roles || [];
+      const userRoles = roles.map((role: { roleName: any; }) => role.roleName);
+      
+      // If user has admin-related roles, navigate to admin dashboard
+      const adminRoles = ['System Admin', 'Admin', 'SystemAdmin', 'Permit Issuer', 'Isolator'];
+      const isAdmin = userRoles.some((role: string) => adminRoles.includes(role));
+      
+      if (isAdmin) {
+        this.router.navigate(['/home/dashboard']).then(() => {window.location.reload()});
+      } else {
+        // Regular user (Requester) navigates to user dashboard
+        this.router.navigate(['/home/user-dashboard']).then(() => {window.location.reload()});
+      }
+      
       return true; 
     }
   

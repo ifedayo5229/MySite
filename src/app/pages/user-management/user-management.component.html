@@ -1,0 +1,91 @@
+<div class="user-management-container">
+  <div class="page-header">
+    <h1>User Management</h1>
+    <button mat-raised-button color="primary" (click)="refreshUsers()">
+      <mat-icon>refresh</mat-icon>
+      Refresh
+    </button>
+  </div>
+
+  <div class="search-section">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search Users</mat-label>
+      <input matInput [(ngModel)]="searchTerm" (ngModelChange)="applyFilter()" placeholder="Search by name, email, location...">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </div>
+
+  <div class="users-table-wrapper" *ngIf="!isLoading">
+    <table mat-table [dataSource]="filteredUsers" class="users-table mat-elevation-z2">
+
+      <!-- First Name Column -->
+      <ng-container matColumnDef="firstName">
+        <th mat-header-cell *matHeaderCellDef>First Name</th>
+        <td mat-cell *matCellDef="let user">{{ user.firstName }}</td>
+      </ng-container>
+
+      <!-- Last Name Column -->
+      <ng-container matColumnDef="lastName">
+        <th mat-header-cell *matHeaderCellDef>Last Name</th>
+        <td mat-cell *matCellDef="let user">{{ user.lastName }}</td>
+      </ng-container>
+
+      <!-- Email Column -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>Email</th>
+        <td mat-cell *matCellDef="let user" class="email-cell">{{ user.email }}</td>
+      </ng-container>
+
+      <!-- Location Column -->
+      <ng-container matColumnDef="location">
+        <th mat-header-cell *matHeaderCellDef>Location</th>
+        <td mat-cell *matCellDef="let user">{{ user.locationName || 'N/A' }}</td>
+      </ng-container>
+
+      <!-- Function/Department Column -->
+      <ng-container matColumnDef="function">
+        <th mat-header-cell *matHeaderCellDef>Department</th>
+        <td mat-cell *matCellDef="let user" class="department-cell">{{ user.functionName || 'N/A' }}</td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="actions-header">Actions</th>
+        <td mat-cell *matCellDef="let user" class="actions-cell">
+          <button mat-icon-button [matMenuTriggerFor]="menu" class="menu-button">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="openUserDetails(user)">
+              <mat-icon>visibility</mat-icon>
+              <span>View Details</span>
+            </button>
+            <button mat-menu-item (click)="openAssignRoleDialog(user)">
+              <mat-icon>assignment_ind</mat-icon>
+              <span>Assign Roles</span>
+            </button>
+            <button mat-menu-item (click)="deactivateUser(user)">
+              <mat-icon>block</mat-icon>
+              <span>Deactivate User</span>
+            </button>
+          </mat-menu>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="table-row"></tr>
+
+      <!-- No data row -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell no-data-cell" [attr.colspan]="displayedColumns.length">
+          No users found
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="loading-container" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+    <p>Loading users...</p>
+  </div>
+</div>

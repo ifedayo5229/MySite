@@ -136,4 +136,10 @@ getDocumentUrl(doc: ApplicationRequestDocument): string {
     this.email          = info.profile.email;
     
   }
+
+  getStatusClass(status: string | undefined): string {
+    if (!status) return 'badge-default';
+    const normalized = status.toLowerCase().replace(/\s+/g, '-');
+    return `badge-${normalized}`;
+  }
 }

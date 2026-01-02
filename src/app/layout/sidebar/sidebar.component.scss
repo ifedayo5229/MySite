@@ -1,110 +1,207 @@
-/* Sidebar Styles */
+/* Modern Sidebar Styles - Blue & White Theme with Curved Edges */
 .sidebar {
   position: fixed;
   top: 3.93rem;
   left: 0;
-  width: 20%;
-  height: 100%;
-  padding-top: 0.5rem;
-  background-color: #fff;
-  color: #01925A;
+  width: 280px;
+  height: calc(100vh - 3.93rem);
+  background: linear-gradient(180deg, #1976d2 0%, #1565c0 100%);
+  color: #ffffff;
   font-weight: 400;
-  transition: left 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow-y: auto;
-  box-shadow: 7px 0 4px -2px rgba(1, 146, 90, 0.3);
+  overflow-x: hidden;
+  box-shadow: 4px 0 12px rgba(25, 118, 210, 0.15);
   z-index: 1000;
+  border-radius: 0 50px 50px 0;
 
   &.active {
     left: 0;
   }
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+  }
+}
+
+.sidebar-header {
+  padding: 1.5rem 1.5rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  .sidebar-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0;
+    letter-spacing: 0.5px;
+  }
+}
+
+.menu-container {
+  padding: 1rem 0.75rem;
 }
 
 /* Menu Styling */
 .menu {
   list-style: none;
-  margin: 0;
+  margin: 0 0 1.5rem 0;
   padding: 0;
 
-  li {
-    display: block;
-    padding: 0.6rem 1.5rem;
+  .menu-list-item {
+    margin-bottom: 0.4rem;
+  }
+
+  .menu-item {
+    display: flex;
+    align-items: center;
+    padding: 0.875rem 1.25rem;
+    font-size: 0.95rem;
     font-weight: 500;
     cursor: pointer;
     position: relative;
-    transition: background-color 0.3s, color 0.3s;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 25px;
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    gap: 0.75rem;
+    margin: 0 0.5rem 0.4rem 0.5rem;
 
-    a {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      text-decoration: none;
-      color: inherit;
+    .menu-icon {
+      font-size: 22px;
+      width: 22px;
+      height: 22px;
+      color: rgba(255, 255, 255, 0.9);
+      flex-shrink: 0;
     }
 
-    img.menu-icon {
-      width: 1.4rem;
-      height: 1.4rem;
-      margin-right: 0.75rem;
+    .menu-label {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .expand-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+      margin-left: auto;
+      color: rgba(255, 255, 255, 0.7);
+      transition: transform 0.3s ease;
     }
 
     &:hover {
-      background-color: rgba(1, 146, 90, 0.15);
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      transform: scale(1.02);
+
+      .menu-icon,
+      .expand-icon {
+        color: #ffffff;
+      }
     }
 
     &.active {
-      background-color: rgba(1, 146, 90, 0.6);
-      color: #71717A;
-    }
+      background: #ffffff;
+      color: #1976d2;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      transform: scale(1.03);
 
-    /* Submenu */
-    ul.submenu {
-      display: none;
-      list-style: none;
-      margin-top: 0.25rem;
-      padding-left: 2rem;
-
-      li {
-        padding: 0.4rem 1rem;
-        font-size: 0.875rem;
-        border-bottom: 1px solid #eee;
-
-        a {
-          display: flex;
-          align-items: center;
-        }
-
-        img.menu-icon {
-          width: 1.1rem;
-          height: 1.1rem;
-          margin-right: 0.5rem;
-        }
-
-        &:hover {
-          background-color: rgba(1, 146, 90, 0.12);
-        }
-
-        &.active {
-          background-color: rgba(1, 146, 90, 0.25);
-          color: #71717A;
-        }
+      .menu-icon,
+      .expand-icon {
+        color: #1976d2;
       }
     }
 
-    &:hover ul.submenu,
-    &.active ul.submenu {
-      display: block;
-    }
+    &.has-submenu.active {
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
 
-    .submenu-indicator {
-      margin-left: auto;
-      font-size: 1.2rem;
-      color: #01925A;
-      transition: color 0.3s;
+      .menu-icon,
+      .expand-icon {
+        color: #ffffff;
+      }
+    }
+  }
+
+  /* Submenu */
+  .submenu {
+    list-style: none;
+    margin: 0.5rem 0 0 0;
+    padding: 0 0 0 1rem;
+    animation: slideDown 0.3s ease;
+
+    .submenu-item {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 1.25rem;
+      font-size: 0.875rem;
+      font-weight: 400;
+      cursor: pointer;
+      border-radius: 20px;
+      color: rgba(255, 255, 255, 0.8);
+      margin: 0 0.5rem 0.3rem 0.5rem;
+      gap: 0.75rem;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+
+      .submenu-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .submenu-label {
+        flex: 1;
+      }
 
       &:hover {
-        color: rgba(1, 146, 90, 0.6);
+        background: rgba(255, 255, 255, 0.18);
+        color: #ffffff;
+        transform: scale(1.02);
+
+        .submenu-icon {
+          color: #ffffff;
+        }
+      }
+
+      &.active {
+        background: #ffffff;
+        color: #1976d2;
+        font-weight: 500;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        transform: scale(1.02);
+
+        .submenu-icon {
+          color: #1976d2;
+        }
       }
     }
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -116,25 +213,31 @@ ul, li {
 }
 
 /* Responsive Design */
-@media (max-width: 48rem) {
+@media (max-width: 768px) {
   .sidebar {
-    width: 65%;
+    width: 280px;
     height: 100vh;
-    top: 6.75rem;
-    position: absolute;
-    padding: 1.5rem;
+    top: 0;
+    left: -280px;
+    position: fixed;
+
+    &.active {
+      left: 0;
+    }
   }
 
-  .menu {
-    flex-direction: column;
+  .sidebar-header {
+    padding-top: 2rem;
+  }
+}
 
-    li {
-      padding: 0.75rem 1rem;
+@media (max-width: 480px) {
+  .sidebar {
+    width: 100%;
+    left: -100%;
 
-      img.menu-icon {
-        width: 1.875rem;
-        height: 1.875rem;
-      }
+    &.active {
+      left: 0;
     }
   }
 }

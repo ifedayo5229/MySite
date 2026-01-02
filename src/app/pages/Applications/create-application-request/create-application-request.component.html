@@ -1,11 +1,14 @@
 <div class="application-form-container">
   <div class="form-header">
-    <h3>Create New Application Request</h3>
-    <div *ngIf="showCreateForm" class="application-form-container">
-      <button class="close-btn" (click)="showCreateForm = false">
-      <i class="material-icons">close</i>
-    </button>
+    <div class="header-content">
+      <div class="header-icon">
+        <mat-icon>app_registration</mat-icon>
+      </div>
+      <h3>Create New Application Request</h3>
     </div>
+    <button *ngIf="showCreateForm" class="close-btn" (click)="showCreateForm = false">
+      <mat-icon>close</mat-icon>
+    </button>
   </div>
 
   <form (ngSubmit)="createRequest()" #requestForm="ngForm" class="form-body">

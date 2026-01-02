@@ -1,185 +1,359 @@
 :host {
   display: block;
-  background-color: #263238; /* Fallback dark background */
+  background: linear-gradient(135deg, #e3f2fd 0%, #f5f5f5 100%);
   min-height: 100vh;
-  overflow-x: hidden;
-  color: #eceff1;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: 'Segoe UI', Roboto, "Helvetica Neue", sans-serif;
 }
 
-.login-wrapper {
+.auth-container {
   display: flex;
-  height: 100vh;
-  align-items: stretch; /* Make columns take full height */
-  justify-content: flex-start; /* Align items to the start (left) */
-}
-
-
-
-.login-left .logo-container {
-  margin-bottom: 5rem;
-}
-
-.login-left .logo {
-  width: 200px;
-  
-  /* You might need to adjust the logo color if it's not visible on the light background */
-}
-.logo{
-    margin-top: 5rem;
-    width: 200%;
-
-}
-
-.login-left .angular-template-info {
-  text-align: center;
-  margin-top: 3rem; // 👈 Adjust the value as needed (e.g., 1rem, 3rem)
-}
-
-
-.login-left .angular-template-info .title {
-  font-size: 5rem; /* Adjust title size */
-  font-weight: 500; /* Adjust font weight */
-  margin-bottom: 0.5rem;
-  color: #080e0a; /* Green color for the title like in the example */
-}
-
-.login-left .angular-template-info .subtitle {
-  font-size: 1.1rem; /* Adjust subtitle size */
-  color: #053a0f; /* Slightly lighter dark color for subtitle */
-}
-.login-left {
-  background-color: #e0e0e0; /* White background */
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* Align content to the top */
+  justify-content: center;
+  min-height: 100vh;
   padding: 2rem;
-  width: 80%; /* Adjust width as needed */
-  background-image: url('../../../assets/images/auth/register.jpg'); /* Replace with your image path */
-  background-size: cover;
-  background-position: center;
 }
 
-.login-left .logo {
-  width: 100px;
-}
-
-.login-right {
-  background-color: #e2e7ea; /* Dark background */
+.auth-wrapper {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center; /* Center content vertically in the right */
-  padding: 2rem;
-  width: 20%; /* Adjust width as needed */
-  text-align: center;
-}
-
-.login-right .logo-container {
-  margin-bottom: 1.5rem;
-}
-
-.login-right .title {
-  font-size: 1.8rem;
-  font-weight: 300;
-  color: #fff;
-  margin-bottom: 1.5rem;
-}
-
-.login-right .login-form {
-  width: 80%;
-  max-width: 300px;
-}
-
-.login-right .input-box {
-  margin-bottom: 1rem;
-}
-
-.login-right .login-button {
+  max-width: 1300px;
   width: 100%;
-  background-color: #009639 !important; /* Green button */
-  color: white !important;
-  font-weight: 500;
-  padding: 0.8rem 0;
+  background: #ffffff;
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  min-height: 650px;
 }
 
-.login-right .action-button {
+// Left Panel - Blue Section
+.left-panel {
+  background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+  flex: 1;
+  padding: 4rem 3rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  margin-top: 1rem;
-}
+  justify-content: center;
+  position: relative;
+  color: #ffffff;
 
-.login-right .back-button {
-  background-color: #607d8b;
-  color: white !important;
-  padding: 0.8rem 0;
-}
+  .decorative-circle {
+    position: absolute;
+    right: -80px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 160px;
+    height: 160px;
+    background: #ffffff;
+    border-radius: 50%;
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+  }
 
-.login-right .signup-link {
-  margin-top: 1rem;
-  font-size: 0.9rem;
-  color: #bdbdbd;
-  text-align: center;
-}
+  .left-content {
+    position: relative;
+    z-index: 2;
+    padding-right: 100px;
+  }
 
-.login-right .signup-link a {
-  color: #03a9f4;
-  text-decoration: none;
-}
+  .logo-section {
+    margin-bottom: 2.5rem;
+    animation: fadeInDown 0.8s ease;
 
-.login-right .signup-link a:hover {
-  text-decoration: underline;
-}
-
-
-
-
-// .title {
-//     font-size: 21px;
-// }
-
-form {
-    width: 100%;
-    padding-top: 32px;
-
-    mat-form-field {
-        width: 100%;
+    .brand-logo {
+      width: 140px;
+      height: auto;
+      filter: brightness(0) invert(1);
     }
+  }
 
-    button {
-        width: 100%;
-        margin: 16px auto;
-        display: block;
-    }
-}
+  .welcome-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+    animation: fadeInUp 0.8s ease 0.2s both;
+    color: #ffffff;
+  }
 
-.redirection {
-    flex-direction: column;
-    box-sizing: border-box;
+  .welcome-text {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    opacity: 0.95;
+    animation: fadeIn 0.8s ease 0.4s both;
+  }
+
+  .feature-highlights {
     display: flex;
-    max-width: 100%;
-    place-content: center;
-    align-items: center;
+    flex-direction: column;
+    gap: 1rem;
+    animation: fadeIn 0.8s ease 0.6s both;
 
-    margin: 32px auto 24px;
-    width: 250px;
-}
+    .highlight-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1rem;
+      opacity: 0.95;
 
-.loading {
-    margin: 16px auto;
-}
-
-
-@media screen and (max-width: 599px) {
-    form {
-        mat-form-field {
-            width: 80%;
-        }
-
-        button {
-            width: 80%;
-        }
+      mat-icon {
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
+      }
     }
+  }
+}
+
+// Right Panel - Form Section
+.right-panel {
+  flex: 1;
+  padding: 4rem 3.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #ffffff;
+
+  .form-wrapper {
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .form-header {
+    margin-bottom: 2.5rem;
+    text-align: center;
+    animation: fadeIn 0.6s ease;
+
+    .signin-title {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 0.5rem;
+    }
+
+    .title-underline {
+      width: 60px;
+      height: 3px;
+      background: #1976d2;
+      margin: 0 auto;
+      border-radius: 2px;
+    }
+  }
+
+  .auth-form {
+    .input-group {
+      margin-bottom: 1.5rem;
+
+      .form-input {
+        width: 100%;
+        padding: 14px 18px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 15px;
+        color: #2c3e50;
+        transition: all 0.3s ease;
+        outline: none;
+        font-family: inherit;
+
+        &::placeholder {
+          color: #999;
+        }
+
+        &:focus {
+          border-color: #1976d2;
+          box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+        }
+
+        &.code-input {
+          letter-spacing: 10px;
+          text-align: center;
+          font-size: 20px;
+          font-weight: 600;
+        }
+      }
+
+      mat-error {
+        font-size: 12px;
+        color: #f44336;
+        margin-top: 5px;
+        display: block;
+      }
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+
+      &:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(25, 118, 210, 0.4);
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      mat-spinner {
+        ::ng-deep circle {
+          stroke: #ffffff;
+        }
+      }
+    }
+
+    .back-btn {
+      width: 100%;
+      padding: 12px;
+      background: transparent;
+      color: #666;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 12px;
+
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+      }
+
+      &:hover:not(:disabled) {
+        background: #fafafa;
+        border-color: #1976d2;
+        color: #1976d2;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+
+    .help-note {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 1.5rem;
+      font-size: 13px;
+      color: #666;
+
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+        color: #1976d2;
+      }
+    }
+  }
+
+  .support-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #f0f0f0;
+
+    .support-link {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: #666;
+      text-decoration: none;
+      transition: all 0.3s ease;
+
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+      }
+
+      &:hover {
+        color: #1976d2;
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// Responsive Design
+@media (max-width: 968px) {
+  .auth-wrapper {
+    flex-direction: column;
+    max-width: 500px;
+  }
+
+  .left-panel {
+    padding: 3rem 2rem;
+
+    .decorative-circle {
+      display: none;
+    }
+
+    .welcome-title {
+      font-size: 1.8rem;
+    }
+
+    .welcome-text {
+      font-size: 0.95rem;
+    }
+  }
+
+  .right-panel {
+    padding: 3rem 2rem;
+  }
 }
