@@ -13,10 +13,12 @@ import { ApplicationRequestDetailsforAdminComponent } from './pages/application-
 import { RequestDetailsDialogComponent } from './pages/Applications/request-details-dialog/request-details-dialog.component';
 import { UserManagementComponent } from './pages/user-management/user-management.component';
 import { LiveApplicationsComponent } from './pages/Applications/live-applications/live-applications.component';
+import { LandingComponent } from './landing/landing.component';
 
 
 const routes: Routes = [
-  { path: "", component: AuthenticateComponent },
+  { path: "", component: LandingComponent },
+  { path: "login", component: AuthenticateComponent },
   { path: "forgotPassword", component: ForgotPasswordComponent },
   { path: "resetPassword", component: ResetPasswordComponent },
   {
@@ -37,7 +39,7 @@ const routes: Routes = [
 
     ]
   },
-  { path: "**", redirectTo: "/home", pathMatch: "full" },
+  { path: "**", redirectTo: "", pathMatch: "full" },
 
 ];
 

@@ -51,6 +51,7 @@ import { UserManagementComponent } from './pages/user-management/user-management
 import { AssignRoleDialogComponent } from './pages/user-management/assign-role-dialog/assign-role-dialog.component';
 import { UserDetailsDialogComponent } from './pages/user-management/user-details-dialog/user-details-dialog.component';
 import { LiveApplicationsComponent } from './pages/Applications/live-applications/live-applications.component';
+import { LandingComponent } from './landing/landing.component';
 
  
 
@@ -66,6 +67,7 @@ import { LiveApplicationsComponent } from './pages/Applications/live-application
     ForgotPasswordComponent,
     ResetPasswordComponent,
     DashboardComponent,
+    LandingComponent,
     
     AssignRolesComponent,
     

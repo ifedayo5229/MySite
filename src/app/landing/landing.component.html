@@ -1,0 +1,457 @@
+<div class="landing-container">
+  <!-- Navigation Header -->
+  <header class="navbar">
+    <div class="logo">
+      <div class="logo-circle">
+        <span class="logo-text">IA</span>
+      </div>
+    </div>
+    
+    <nav class="nav-links">
+      <a href="#home" (click)="scrollToSection('home')">home</a>
+      <a href="#about" (click)="scrollToSection('about')">about</a>
+      <a href="#skills" (click)="scrollToSection('skills')">skills</a>
+      <a href="#experience" (click)="scrollToSection('experience')">experience</a>
+      <a href="#projects" (click)="scrollToSection('projects')">projects</a>
+      <a href="#contact" (click)="scrollToSection('contact')">contact</a>
+    </nav>
+    
+    <div class="social-icons">
+      <a (click)="navigateToSocial('github')" class="social-icon" title="GitHub">
+        <i class="fab fa-github"></i>
+      </a>
+      <a (click)="navigateToSocial('linkedin')" class="social-icon" title="LinkedIn">
+        <i class="fab fa-linkedin"></i>
+      </a>
+      <a (click)="navigateToSocial('email')" class="social-icon" title="Email">
+        <mat-icon>email</mat-icon>
+      </a>
+      <button mat-icon-button (click)="downloadResume()" class="social-icon" title="Download Resume">
+        <mat-icon>download</mat-icon>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero-section">
+    <div class="hero-content">
+      <div class="left-side">
+        <h1 class="title">problem solver</h1>
+        <p class="description">Transforming complex business challenges into elegant software solutions.</p>
+      </div>
+
+      <div class="center-image">
+        <div class="image-container">
+          <img src="assets/images/seun image.jpg" alt="Ifedayo Ademodi" class="profile-image" />
+          <div class="paint-overlay paint-red"></div>
+          <div class="paint-overlay paint-yellow"></div>
+          <div class="paint-overlay paint-cyan"></div>
+        </div>
+        <div class="hero-name">
+          <h2>Oluwaseunfunmi Ifedayo Ademodi</h2>
+          <p class="hero-title">Software Engineer | Full Stack Developer</p>
+          <p class="hero-tagline">From agriculture to algorithms, driven by curiosity and continuous learning</p>
+        </div>
+      </div>
+
+      <div class="right-side">
+        <h1 class="title">&lt;full stack&gt;</h1>
+        <p class="description">Building scalable, secure applications with ASP.NET Core, C#, Angular, and modern web technologies.</p>
+        
+        <div class="code-snippet">
+          <code>
+            <span class="code-bracket">{{ '{' }}</span><br>
+            &nbsp;&nbsp;<span class="code-key">"stack"</span><span class="code-bracket">: {{ '{' }}</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">"backend"</span><span class="code-bracket">: {{ '{' }}</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">"framework"</span>: <span class="code-string">"ASP.NET Core"</span>,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">"language"</span>: <span class="code-string">"C#"</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-bracket">{{ '}' }}</span>,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">"frontend"</span>: <span class="code-bracket">[</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-bracket">{{ '{' }}</span> <span class="code-key">"framework"</span>: <span class="code-string">"Angular"</span> <span class="code-bracket">{{ '}' }}</span>,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-bracket">{{ '{' }}</span> <span class="code-key">"framework"</span>: <span class="code-string">"React"</span> <span class="code-bracket">{{ '}' }}</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-bracket">]</span>,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">"database"</span>: <span class="code-string">"SQL Server"</span><br>
+            &nbsp;&nbsp;<span class="code-bracket">{{ '}' }}</span>,<br>
+            &nbsp;&nbsp;<span class="code-key">"principles"</span><span class="code-bracket">: {{ '{' }}</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">"approach"</span>: <span class="code-string">"Clean Code"</span>,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">"focus"</span>: <span class="code-string">"Scalability"</span><br>
+            &nbsp;&nbsp;<span class="code-bracket">{{ '}' }}</span><br>
+            <span class="code-bracket">{{ '}' }}</span>
+          </code>
+        </div>
+      </div>
+    </div>
+    
+    <div class="scroll-indicator" (click)="scrollToSection('about')">
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="content-section about-section">
+    <div class="section-container">
+      <h2 class="section-title">My Journey</h2>
+      <div class="journey-content">
+        <div class="journey-card">
+          <div class="journey-icon">
+            <mat-icon>agriculture</mat-icon>
+          </div>
+          <h3>From Agriculture to Software</h3>
+          <p>
+            My journey began in an unexpected place — studying Crop Protection and Plant Virology at the Federal University of Agriculture, Abeokuta. 
+            While I was learning about protecting crops and understanding viral mechanisms, I discovered a different kind of system that fascinated me: 
+            digital systems and software architecture.
+          </p>
+          <p>
+            The analytical thinking and problem-solving skills I developed in agriculture translated beautifully into software engineering. 
+            Just as I learned to diagnose plant diseases and implement solutions, I now diagnose system issues and architect technical solutions.
+          </p>
+        </div>
+
+        <div class="journey-card">
+          <div class="journey-icon">
+            <mat-icon>school</mat-icon>
+          </div>
+          <h3>Learning & Growth</h3>
+          <p>
+            In 2020, I took a leap of faith and joined CodeNest Africa as a Technology Intern, where I immersed myself in programming practices, 
+            backend development with .NET Core, and collaborative software development. This experience ignited my passion for creating elegant solutions to complex problems.
+          </p>
+          <p>
+            From there, I progressed through various roles — starting as an intern at Software Business Solutions Consulting, 
+            then advancing to developer positions at Infosight Limited and Strategic Data for Software Development, 
+            each experience building my expertise and confidence.
+          </p>
+        </div>
+
+        <div class="journey-card">
+          <div class="journey-icon">
+            <mat-icon>business</mat-icon>
+          </div>
+          <h3>Lafarge Africa Experience</h3>
+          <p>
+            Today, as an Application Developer at Lafarge Africa Plc, I contribute to the full software development lifecycle — 
+            from scoping and requirements analysis to designing APIs, building full-stack solutions, managing databases, 
+            and deploying applications through CI/CD pipelines.
+          </p>
+          <p>
+            I work with cutting-edge technologies like ASP.NET Core, Angular, SQL Server, and Entity Framework, 
+            collaborating with cross-functional teams to deliver business-critical applications that drive organizational efficiency 
+            and digital transformation.
+          </p>
+        </div>
+      </div>
+
+      <div class="profile-summary">
+        <p class="summary-text">
+          I'm passionate about building scalable, secure, and impactful web applications that solve real business problems. 
+          I thrive in Agile environments where collaboration, continuous improvement, and technical excellence drive success. 
+          My unique background gives me a distinctive perspective on systematic thinking and problem-solving.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section id="skills" class="content-section skills-section">
+    <div class="section-container">
+      <h2 class="section-title">Skills & Tech Stack</h2>
+      
+      <div class="skills-grid">
+        <div class="skill-category">
+          <div class="category-header">
+            <mat-icon>web</mat-icon>
+            <h3>Frontend</h3>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag" *ngFor="let skill of skills.frontend">{{skill}}</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <div class="category-header">
+            <mat-icon>dns</mat-icon>
+            <h3>Backend</h3>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag" *ngFor="let skill of skills.backend">{{skill}}</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <div class="category-header">
+            <mat-icon>storage</mat-icon>
+            <h3>Database</h3>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag" *ngFor="let skill of skills.database">{{skill}}</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <div class="category-header">
+            <mat-icon>build</mat-icon>
+            <h3>Tools & Practices</h3>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag" *ngFor="let skill of skills.tools">{{skill}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="core-competencies">
+        <h3>Core Competencies</h3>
+        <div class="competency-list">
+          <div class="competency-item">
+            <mat-icon>check_circle</mat-icon>
+            <span>Software Development Lifecycle (SDLC)</span>
+          </div>
+          <div class="competency-item">
+            <mat-icon>check_circle</mat-icon>
+            <span>RESTful API Design & Development</span>
+          </div>
+          <div class="competency-item">
+            <mat-icon>check_circle</mat-icon>
+            <span>Object-Oriented Programming (OOP)</span>
+          </div>
+          <div class="competency-item">
+            <mat-icon>check_circle</mat-icon>
+            <span>Database Operations & Optimization</span>
+          </div>
+          <div class="competency-item">
+            <mat-icon>check_circle</mat-icon>
+            <span>Algorithm Design & Complexity Analysis</span>
+          </div>
+          <div class="competency-item">
+            <mat-icon>check_circle</mat-icon>
+            <span>System Design & Architecture</span>
+          </div>
+          <div class="competency-item">
+            <mat-icon>check_circle</mat-icon>
+            <span>Agile/Scrum Methodologies</span>
+          </div>
+          <div class="competency-item">
+            <mat-icon>check_circle</mat-icon>
+            <span>CI/CD & DevOps Practices</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience Section -->
+  <section id="experience" class="content-section experience-section">
+    <div class="section-container">
+      <h2 class="section-title">Professional Experience</h2>
+      
+      <div class="timeline">
+        <div class="experience-card" *ngFor="let exp of experiences; let i = index" [class.featured]="i === 0">
+          <div class="experience-header">
+            <div class="company-info">
+              <h3>{{exp.company}}</h3>
+              <h4>{{exp.position}}</h4>
+              <p class="period">
+                <mat-icon>calendar_today</mat-icon>
+                {{exp.period}}
+              </p>
+            </div>
+          </div>
+          
+          <p class="experience-description">{{exp.description}}</p>
+          
+          <div class="highlights">
+            <h5>Key Achievements:</h5>
+            <ul>
+              <li *ngFor="let highlight of exp.highlights">
+                <mat-icon>arrow_right</mat-icon>
+                {{highlight}}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="education-section">
+        <h3>Education & Training</h3>
+        <div class="education-grid">
+          <div class="education-card">
+            <mat-icon>school</mat-icon>
+            <h4>B.Agric. Crop Protection (Plant Virology)</h4>
+            <p>Federal University of Agriculture, Abeokuta</p>
+            <span class="year">2018</span>
+          </div>
+          <div class="education-card">
+            <mat-icon>code</mat-icon>
+            <h4>Technology Intern</h4>
+            <p>CodeNest Africa</p>
+            <span class="year">2020</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="content-section projects-section">
+    <div class="section-container">
+      <h2 class="section-title">Projects & Applications</h2>
+      <p class="section-subtitle">Explore my work on GitHub and see how I solve real-world problems</p>
+      
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-icon">
+            <mat-icon>directions_boat</mat-icon>
+          </div>
+          <h3>Maritime Access Management System (MAMS)</h3>
+          <p>A comprehensive system for managing maritime assets and operations, featuring role-based access control, real-time monitoring, and integration with internal systems.</p>
+          <div class="project-tech">
+            <span class="tech-badge">Angular</span>
+            <span class="tech-badge">ASP.NET Core</span>
+            <span class="tech-badge">SQL Server</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-icon">
+            <mat-icon>account_balance</mat-icon>
+          </div>
+          <h3>Prime Core Banking Application</h3>
+          <p>Contributed to a robust banking application with background services, database optimization, and comprehensive technical support infrastructure.</p>
+          <div class="project-tech">
+            <span class="tech-badge">.NET Framework</span>
+            <span class="tech-badge">SQL</span>
+            <span class="tech-badge">Stored Procedures</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-icon">
+            <mat-icon>shopping_cart</mat-icon>
+          </div>
+          <h3>E-Commerce Platform</h3>
+          <p>Full-featured e-commerce solution built during internship, showcasing end-to-end development skills and team collaboration.</p>
+          <div class="project-tech">
+            <span class="tech-badge">ASP.NET MVC</span>
+            <span class="tech-badge">JavaScript</span>
+            <span class="tech-badge">Bootstrap</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-icon">
+            <mat-icon>factory</mat-icon>
+          </div>
+          <h3>Lafarge Internal Applications</h3>
+          <p>Multiple business-critical applications for process automation, data management, and operational efficiency at Lafarge Africa.</p>
+          <div class="project-tech">
+            <span class="tech-badge">Angular</span>
+            <span class="tech-badge">C#</span>
+            <span class="tech-badge">Entity Framework</span>
+            <span class="tech-badge">CI/CD</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="github-cta">
+        <button mat-raised-button color="primary" (click)="navigateToSocial('github')">
+          <mat-icon>code</mat-icon>
+          View All Projects on GitHub
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="content-section contact-section">
+    <div class="section-container">
+      <h2 class="section-title">Get In Touch</h2>
+      <p class="section-subtitle-white">Let's collaborate on building something amazing</p>
+      <p class="hire-me-text">
+        HIRE ME • Let me join your project team • Transform your legacy applications 
+        • I'll bring immediate value to your organization
+      </p>
+      
+      <div class="contact-content">
+        <div class="contact-info">
+          <div class="contact-item">
+            <mat-icon>email</mat-icon>
+            <div>
+              <h4>Email</h4>
+              <a href="mailto:ademodiseun@gmail.com">ademodiseun@gmail.com</a>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <mat-icon>phone</mat-icon>
+            <div>
+              <h4>Phone</h4>
+              <a href="tel:+2348148347968">(+234) 814 834 7968</a>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <mat-icon>business_center</mat-icon>
+            <div>
+              <h4>LinkedIn</h4>
+              <a href="https://www.linkedin.com/in/oluwaseun-ifedayo-ademodi-6268a6146/" target="_blank">
+                Connect with me on LinkedIn
+              </a>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <mat-icon>code</mat-icon>
+            <div>
+              <h4>GitHub</h4>
+              <a href="https://github.com/ifedayo5229?tab=repositories" target="_blank">
+                View my repositories
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form-container">
+          <form class="contact-form" #contactForm="ngForm" (ngSubmit)="onSubmitContactForm(contactForm)">
+            <mat-form-field appearance="outline">
+              <mat-label>Your Name</mat-label>
+              <input matInput name="name" ngModel required>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Your Email</mat-label>
+              <input matInput type="email" name="email" ngModel required email>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Subject</mat-label>
+              <input matInput name="subject" ngModel required>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Message</mat-label>
+              <textarea matInput rows="5" name="message" ngModel required></textarea>
+            </mat-form-field>
+
+            <button mat-raised-button color="primary" type="submit" [disabled]="!contactForm.valid || isSubmitting">
+              <mat-icon>send</mat-icon>
+              {{ isSubmitting ? 'Sending...' : 'Send Message' }}
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <p>&copy; 2026 Oluwaseunfunmi Ifedayo Ademodi. All rights reserved.</p>
+      <p class="footer-tagline">Built with Angular, passion, and I have fun while building this 🚀</p>
+      <div class="footer-links">
+        <a (click)="navigateToSocial('github')">GitHub</a>
+        <a (click)="navigateToSocial('linkedin')">LinkedIn</a>
+        <a (click)="navigateToSocial('email')">Email</a>
+      </div>
+    </div>
+  </footer>
+</div>
